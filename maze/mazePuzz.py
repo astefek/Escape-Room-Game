@@ -3,14 +3,18 @@ import pygame
 
 pygame.init()
 
+# +++ BUILDING THE WINDOW SCENE +++ #
 winWid = 720
 winHi = 480
 window = pygame.display.set_mode([winWid, winHi])
 windowColor = pygame.Color(165, 172, 186)
 
-# a List-of-Lists, composed of boolean elements, detailing the mechanics of the maze
-mazeMap = mazetest.maze(width=50, height=50, complexity=0.25, density=0.25)
+
+# Variables detailing the inner mechanics of the maze, and its scaling
+mazeMap = mazetest.maze(width=50, height=50, complexity=0.3, density=0.25)
 LoL = list(mazeMap)
+scaleFactWid = winWid/len(LoL)
+scaleFactHi = winHi/len(LoL)
 
 # +++ DRAWING THE MAZE W/ END GOAL+++ #
 
@@ -47,9 +51,9 @@ def findEnd(mazeMap):
         for c in range(len(LoL[r]) -1, 0, -1):
             if LoL[r][c] == False:
                 liveCount = neighborCount(LoL, c, r)
-                if liveCount >= 6:
-                    posn = (c, r)
-                    return posn
+                if liveCount >= 4:
+                    endPosn = (c * scaleFactWid, r * scaleFactHi)
+                    return endPosn
 
 def drawEnd(mazeMap):
     """
@@ -60,56 +64,101 @@ def drawEnd(mazeMap):
     posn = findEnd(mazeMap)
     for r in range(len(LoL)):
         for c in range(len(LoL[r])):
-            if (c, r) == posn:
-                pygame.draw.rect(window, (88, 189, 81), (c * scaleFactWid, r * scaleFactHi, scaleFactWid, scaleFactHi))
+            if (c * scaleFactWid, r * scaleFactHi) == posn:
+                endBlock = pygame.draw.rect(window, (88, 189, 81), (c * scaleFactWid, r * scaleFactHi, scaleFactWid, scaleFactHi))
+                return endBlock
+
+def makeWall(mazeMap):
+    """
+    Takes a [list-of-lists] detailing the maze backend and 
+    creates a list of Rect objects to be used in collision checks within pygame
+    """
+    scaleFactWid = winWid/len(LoL)
+    scaleFactHi = winHi/len(LoL)
+    mazeWallList = []
+    for r in range(len(LoL)):
+        for c in range(len(LoL[r])):
+            if LoL[r][c] == True:
+                mazeWall = pygame.Rect(c * scaleFactWid, r * scaleFactHi, scaleFactWid, scaleFactHi)
+                mazeWallList += [mazeWall]
+    return mazeWallList
 
 def drawMaze(mazeMap):
     """
     Converts the [list-of-lists] created through mazetest into a pygame display
     """
     scaleFactWid = winWid/len(LoL)
-    scaleFactHi = winHi/len(LoL) 
+    scaleFactHi = winHi/len(LoL)
+    mazeWallList = []
     for r in range(len(LoL)):
         for c in range(len(LoL[r])):
             if LoL[r][c] == True:
-                pygame.draw.rect(window, (64, 70, 83), (c * scaleFactWid, r * scaleFactHi, scaleFactWid, scaleFactHi))
-    drawEnd(mazeMap)
+                mazeWall = (c * scaleFactWid, r * scaleFactHi, scaleFactWid, scaleFactHi)
+                pygame.draw.rect(window, (64, 70, 83), mazeWall)
+                mazeWallList += mazeWall
+    return mazeWallList
+
 
 # +++ MAKING THE PLAYER ITEM +++ #
-scaleFactWid = winWid/len(LoL)
-scaleFactHi = winHi/len(LoL)
 playerSurface = window 
 playerColor = pygame.Color(217, 226, 115) 
 playerSize = (scaleFactWid, scaleFactHi)
 playerPosn = (scaleFactWid, scaleFactHi)
 
-## VERIFY WALLS WIP###
-def verifyMove():
-    """
-    Recieves a 
+# +++ MAKING THE WIN CONDITION +++ #
 
-
-    Returns True if a move is valid, False otherwise (moving into a wall)
+def solveMaze(playerPosn, endPosn):
     """
+    Determines if the player has reached the end Rect of the maze.
+    """
+    playerPosnX = int(playerPosn[0])
+    playerPosnY = int(playerPosn[1])
+    playerPosn = (playerPosnX, playerPosnY)
+    endPosnX = int(endPosn[0])
+    endPosnY = int(endPosn[1])
+    endPosn = (endPosnX, endPosnY)
+    if playerPosn == endPosn:
+        return True
+    else:
+        return False
+
 
 
 # +++ PLAYING THE GAME +++ #             
 while True:
     window.fill(windowColor)
-    drawMaze(LoL)
-    pygame.draw.rect(playerSurface, playerColor, (playerPosn, playerSize))
+    mazeWall = drawMaze(LoL)
+    collideableWall = makeWall(LoL)
+    mazeEnd = drawEnd(LoL)
+    playerRect = pygame.draw.rect(playerSurface, playerColor, (playerPosn, playerSize))
     
-
+    #   On a directional keypress, checks the space ahead,
+    # determines if it collides, and if it doesn't, moves the player
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
+            pygame.quit() 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                playerPosn = (playerPosn[0], playerPosn[1] - scaleFactHi)
+                futurePlayerRect = pygame.Rect(playerPosn[0], playerPosn[1] - scaleFactHi, scaleFactWid, scaleFactHi)
+                if futurePlayerRect.collidelist(collideableWall) == -1:
+                    playerPosn = (playerPosn[0], playerPosn[1] - scaleFactHi)
+                
             if event.key == pygame.K_DOWN:
-                playerPosn = (playerPosn[0], playerPosn[1] + scaleFactHi)
+                futurePlayerRect = pygame.Rect(playerPosn[0], playerPosn[1] + scaleFactHi, scaleFactWid, scaleFactHi)
+                if futurePlayerRect.collidelist(collideableWall) == -1:
+                    playerPosn = (playerPosn[0], playerPosn[1] + scaleFactHi)
+
             if event.key == pygame.K_LEFT:
-                playerPosn = (playerPosn[0] - scaleFactWid, playerPosn[1])
+                futurePlayerRect = futureUpPlayerRect = pygame.Rect(playerPosn[0] - scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
+                if futurePlayerRect.collidelist(collideableWall) == -1:
+                    playerPosn = (playerPosn[0] - scaleFactWid, playerPosn[1])
+
             if event.key == pygame.K_RIGHT:
-                playerPosn = (playerPosn[0] + scaleFactWid, playerPosn[1])
-        pygame.display.flip()
+                futurePlayerRect = pygame.Rect(playerPosn[0] + scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
+                if futurePlayerRect.collidelist(collideableWall) == -1:
+                    playerPosn = (playerPosn[0] + scaleFactWid, playerPosn[1])
+    
+    if solveMaze(playerPosn, findEnd(LoL)) == True:
+        pygame.quit()
+    
+    pygame.display.flip()
