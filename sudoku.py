@@ -119,6 +119,5 @@ def make_puzzle():
                 continue
             break
 
-    display_grid(grid)
     return grid
 
