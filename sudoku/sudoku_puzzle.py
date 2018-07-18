@@ -5,7 +5,7 @@
 import pygame
 import math
 import random
-import sudoku
+import sudoku_generator
 
 # 6 x 6 sudoku
 # 1-6 in every row
@@ -120,8 +120,8 @@ def boxFromSelector(selector_pointlist):
 
 # gen grid values dictionary
 grid_dict = {}
-values_grid = sudoku.make_puzzle()
-sudoku.display_grid(values_grid)          # for comparison display it in terminal
+values_grid = sudoku_generator.make_puzzle()
+sudoku_generator.display_grid(values_grid)          # for comparison display it in terminal
 
 for x in range( len(box_pos) ):
     for y in range( len(box_pos)):
@@ -145,9 +145,9 @@ player_filled = {}
 
 while True:
 
-    window.fill(window_color)
-    
     # Drawing
+
+    window.fill(window_color)
     
     # Draw grid boxes
     for x in range( len(box_pos) ):
@@ -227,7 +227,7 @@ while True:
         window.blit(winMessage, (485, 30) )
 
 
-
+    # Flip Screen
     pygame.display.flip()
 
 
