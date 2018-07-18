@@ -145,9 +145,9 @@ player_filled = {}
 
 while True:
 
-    window.fill(window_color)
-    
     # Drawing
+
+    window.fill(window_color)
     
     # Draw grid boxes
     for x in range( len(box_pos) ):
@@ -227,7 +227,7 @@ while True:
         window.blit(winMessage, (485, 30) )
 
 
-
+    # Flip Screen
     pygame.display.flip()
 
 
