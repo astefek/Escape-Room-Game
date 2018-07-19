@@ -11,7 +11,7 @@ windowColor = pygame.Color(165, 172, 186)
 
 
 # Variables detailing the inner mechanics of the maze, and its scaling
-mazeMap = mazetest.maze(width=50, height=50, complexity=0.3, density=0.25)
+mazeMap = mazetest.maze(width=50, height=50, complexity=0.9, density=0.9)
 LoL = list(mazeMap)
 scaleFactWid = winWid/len(LoL)
 scaleFactHi = winHi/len(LoL)
