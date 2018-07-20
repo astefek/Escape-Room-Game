@@ -99,14 +99,14 @@ allButtons.add(greenButton)
 yellowButton = yellowButton()
 allButtons.add(yellowButton)
 
-allButtons.update()
-allButtons.draw(window)
+
 
 
 # +*~*+ RUNNING THE GAME +*~*+ #
 
 while True:
-    print(pygame.sprite.Group.sprites(allButtons))
+    allButtons.update()
+    allButtons.draw(window)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -114,19 +114,21 @@ while True:
         # on input phase ONLY #
         if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-            clickedSprites = [s for s in allButtons if s.rect.collidepoint(pos)]
-            if clickedSprites == blueButton():
-                print("clicked blue")
-                blueButton.image.fill(LIGHTBLUE)
-            elif clickedSprites == redButton():
-                print("clicked red")
-                redButton.image.fill(LIGHTRED)
-            elif clickedSprites == greenButton():
-                print("clicked green")
-                greenButton.image.fill(LIGHTGREEN)
-            elif clickedSprites == yellowButton():
-                print("clicked yellow")
-                yellowButton.image.fill(LIGHTYELLOW)
+            if blueButton.rect.collidepoint(pos):
+                pygame.draw.rect(window, LIGHTBLUE, blueButton.rect)
+                pygame.display.flip()
+                time.sleep(1)
+            elif redButton.rect.collidepoint(pos):
+                pygame.draw.rect(window, LIGHTRED, redButton.rect)
+                pygame.display.flip()
+                time.sleep(1)
+            elif greenButton.rect.collidepoint(pos):
+                pygame.draw.rect(window, LIGHTGREEN, greenButton.rect)
+                pygame.display.flip()
+                time.sleep(1)
+            elif yellowButton.rect.collidepoint(pos):
+                pygame.draw.rect(window, LIGHTYELLOW, yellowButton.rect)
+                pygame.display.flip()
+                time.sleep(1)
 
-    
     pygame.display.flip()
