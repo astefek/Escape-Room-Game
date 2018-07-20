@@ -33,6 +33,8 @@ clock = pygame.time.Clock()
 # Mouse/Cursor 
 pygame.mouse.set_cursor(*pygame.cursors.arrow)
 
+# Progress variable 
+
 
 while True:
     # Start Screen
@@ -40,9 +42,7 @@ while True:
     if game_loop == 1:
         graphics.run(window, bg)
 
-    # Main Loop - graphics
-    #graphics.run(window, bg)
-
+ 
 
 
 
