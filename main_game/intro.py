@@ -26,11 +26,10 @@ def image_load(filename):
 def loop(window):
     global state
     clock.tick(30)
-    print(state)
     if state == 0:
         asteroid_sprite.update()
         asteroid_sprite.draw(window)
-        if pygame.time.get_ticks() < 6000:
+        if pygame.time.get_ticks() < 7000:
             state = 0
             return state
         else:
@@ -39,7 +38,7 @@ def loop(window):
     elif state == 1:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 9000:
+        if pygame.time.get_ticks() < 10000:
             state = 1
             return state
         else:
@@ -48,7 +47,7 @@ def loop(window):
     elif state == 2:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 12000:
+        if pygame.time.get_ticks() < 13000:
             text_print(window, 'WARNING', 90)
             state = 2 
             return state
@@ -58,7 +57,7 @@ def loop(window):
     elif state == 3:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 15000:
+        if pygame.time.get_ticks() < 16000:
             text_print(window, 'FIX ENGINE OR FACE CERTAIN DOOM', 50)
             state = 3 
             return state 
