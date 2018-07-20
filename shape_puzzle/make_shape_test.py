@@ -6,13 +6,6 @@ import pygame
 import math
 import random
 
-### MAYBE CHANGE SHAPE DRAWING SO THAT ALL ANGLES CANT BE CONVEX??? ELIMINATE LINE OUTSIDE SHAPE PROBLEM
-###
-###
-###
-
-
-
 # Function definition
 def x_min(point1, point2):
     """Returns the min x value of the two given points"""
@@ -40,7 +33,12 @@ def slope(point1, point2):
     denominator = point2[0] - point1[0]
     return numerator/denominator
 
-    
+def midpoint(point1, point2):
+    """Takes two points and returns the midpoint of the line between them."""
+    x_coord = (point2[0] - point1[0])/2 + point1[0]
+    y_coord = (point2[1] - point1[1])/2 + point1[1]
+    return (x_coord, y_coord)
+
 
 # Window setup
 window_size = [720, 480]
@@ -51,13 +49,13 @@ window = pygame.display.set_mode(window_size)
 shape_color = pygame.Color(75, 50, 35)
 
 point1 = ( random.choice( range(20,130) ), random.choice( range(35,175))  )
-point2 = ( random.choice( range(20,130) ), random.choice( range(176,315)) )
+point2 = ( random.choice( range(20, point1[0]) ), random.choice( range(176,315)) )
 point3 = ( random.choice( range(20,130) ), random.choice( range(315,455)) )
-point4 = ( random.choice( range(131,240)), random.choice( range(315,455)) )
+point4 = ( random.choice( range(131,240)), random.choice( range(point3[1],455)) )
 point5 = ( random.choice( range(240,350)), random.choice( range(315,455)) )
-point6 = ( random.choice( range(240,350)), random.choice( range(176,315)) )
+point6 = ( random.choice( range(point5[0],350)), random.choice( range(176,315)) )
 point7 = ( random.choice( range(240,350)), random.choice( range(35,175))  )
-point8 = ( random.choice( range(131,240)), random.choice( range(35,175))  )
+point8 = ( random.choice( range(131,240)), random.choice( range(35,point7[1]))  )
 
 shape_pointlist = [point1, point2, point3, point4, point5, point6, point7, point8]
 
@@ -70,13 +68,21 @@ for combo in point_combos:
     y_coord = ( slope(combo[0], combo[1]) * (x_coord - combo[0][0]) ) + combo[0][1]
     linepoint_dict[combo] = (x_coord, y_coord)
 
+sidepoint_list = list(linepoint_dict.values())
 
 # Line variables (for testing)
 line_color = pygame.Color(255, 225, 40)
 
 
-# Test print section
-print(list(linepoint_dict.values()))
+
+half1 = [point1, point2, point3, point4, point4_5, point8_1]
+half2 = [point8_1, point4_5, point5, point6, point7, point8]
+
+q1 = [point8, point6, point7]
+q2 = [point8, point8_1, point4_5, point5, point6]
+q3 = [point1, midpoint(point8_1, point4_5), point8_1]
+q4 = [point1, point2, point3, point4, point4_5, midpoint(point8_1, point4_5)]
+
 
 # Main loop
 
@@ -89,8 +95,9 @@ while True:
     pygame.draw.polygon(window,shape_color, shape_pointlist)
 
     # Draw lines between points (for testing)
-    pygame.draw.lines(window, line_color, True, list(linepoint_dict.values() ) )
-
+    #pygame.draw.lines(window, line_color, True, list(linepoint_dict.values() ) )
+    for i in range(len(sidepoint_list)):
+        pygame.draw.line(window, line_color, sidepoint_list[i], sidepoint_list[(i+3) % len(sidepoint_list)] )
 
     # User interaction
     for event in pygame.event.get():
