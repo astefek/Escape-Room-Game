@@ -7,12 +7,10 @@ import random
 pygame.init()
 pygame.init()
 pygame.font.init()
-font = pygame.font.SysFont( 'Arial', 40)
+font = pygame.font.SysFont('Arial', 40)
 window_size = [720, 480]
 window_color = pygame.Color(208, 161, 219)
 window = pygame.display.set_mode(window_size)
-pygame.key.set_repeat(0,5)
-pygame.key.get_repeat()
 
 
 # Function definition
@@ -146,10 +144,7 @@ current_num = 0
 #print()
 #print(indiv_shapes)
 
-# Test print statements for debugging
-print(indiv_shapes.keys())
-print()
-print(selector_numbers)
+# -------------------------Test print statements for debugging------------------------------------
 
 
 # Main loop

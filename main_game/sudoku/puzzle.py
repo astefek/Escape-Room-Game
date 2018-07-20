@@ -218,6 +218,14 @@ def run(window):
                     if current_box not in rand_filled_boxes:
                         player_filled[current_box] = redSixSurface
 
+
+                elif event.key == pygame.K_SPACE:
+                    pass
+
+
+        # Flip Screen
+        pygame.display.flip()
+
         # Win Condition
         player_soln = {}
         for box in rand_filled_boxes:
@@ -230,10 +238,6 @@ def run(window):
             pygame.display.flip()
             time.sleep(winScreenTime)
             return
-
-
-        # Flip Screen
-        pygame.display.flip()
 
 
 
