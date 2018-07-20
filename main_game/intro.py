@@ -5,22 +5,17 @@ import time
 
 import sys
 
-
 pygame.init()
+pygame.font.init()
 
-clock = pygame.time.Clock()
 
 window_width = 720
 window_height = 480
 window = pygame.display.set_mode([window_width, window_height])
 
-startbg = pygame.image.load('start_screenbg.png').convert()
-window.blit(startbg, (0,0))
+clock = pygame.time.Clock()
 
-# Font shit
-pygame.font.init()
-font = pygame.font.SysFont('haettenschweiler', 90)
-
+state = 0
 
 def image_load(filename):
     image = pygame.image.load(filename).convert_alpha()
@@ -28,12 +23,13 @@ def image_load(filename):
     return image
 
 
-def loop(state):
+def loop(window):
+    global state
     clock.tick(30)
     if state == 0:
         asteroid_sprite.update()
         asteroid_sprite.draw(window)
-        if pygame.time.get_ticks() < 6000:
+        if pygame.time.get_ticks() < 7000:
             state = 0
             return state
         else:
@@ -42,7 +38,7 @@ def loop(state):
     elif state == 1:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 9000:
+        if pygame.time.get_ticks() < 10000:
             state = 1
             return state
         else:
@@ -51,8 +47,8 @@ def loop(state):
     elif state == 2:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 12000:
-            text_print('WARNING', 90)
+        if pygame.time.get_ticks() < 13000:
+            text_print(window, 'WARNING', 90)
             state = 2 
             return state
         else:
@@ -61,17 +57,18 @@ def loop(state):
     elif state == 3:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 19000:
-            text_print('FIX ENGINE OR FACE CERTAIN DOOM', 50)
+        if pygame.time.get_ticks() < 16000:
+            text_print(window, 'FIX ENGINE OR FACE CERTAIN DOOM', 50)
             state = 3 
             return state 
         else:
             state = 4
             return state
+    else:
+        return 
+
     
-        
-def text_print(text, size):
-    pygame.font.init()
+def text_print(window, text, size):
     font = pygame.font.SysFont('haettenschweiler', size)
     textsurface = font.render(text, False, (255, 0, 25))
     window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (window_height/2) - (textsurface.get_rect().height/2)))
@@ -169,24 +166,24 @@ asteroid_sprite.add(asteroid)
 
 # Fire shit 
 flame_sprite = pygame.sprite.Group()
-
 flames = Flames()
 flame_sprite.add(flames)
-
 flames2 = Flames2()
 flame_sprite.add(flames2)
+flame_sprite.update()
 
 
-state = 0
-while True:
-    window.blit(startbg, (0, 0))
+def run(window, bg, font):
+    global state
+    window.blit(bg, (0, 0))
     event = pygame.event.poll()
     if event.type == pygame.QUIT:
         pygame.quit()
         sys.exit(0)
-    
-    state = loop(state)
-        
-
+    state = loop(window)
     pygame.display.flip()
+    if state == 4:
+        return 1
+
+
 
