@@ -227,9 +227,9 @@ def run(window):
         if player_soln == grid_dict:
 
             window.blit(winMessage, (485, 30) )
+            pygame.display.flip()
             time.sleep(winScreenTime)
             return
-
 
 
         # Flip Screen
