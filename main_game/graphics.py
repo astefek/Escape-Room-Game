@@ -1,23 +1,16 @@
 import pygame
+import sudoku
 
 pygame.init()
+pygame.font.init()
 
-# Window/background details 
 window_width = 720
 window_height = 480
 window = pygame.display.set_mode([window_width, window_height])
 
-bg = pygame.image.load('space_gamebg.png').convert()
-
-window.blit(bg, (0,0))
-
-# Mouse/Cursor 
-pygame.mouse.set_cursor(*pygame.cursors.arrow)
-
-def text_print(text, size):
-    pygame.font.init()
+def text_print(window, text, size):
     font = pygame.font.SysFont('Arial', size)
-    textsurface = font.render(text, False, (255, 0, 25))
+    textsurface = font.render(text, False, (0, 0, 0))
     window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (window_height/2) - (textsurface.get_rect().height/2)))
 
 
@@ -89,21 +82,23 @@ all_sprites.add(tube)
 simonsays = SimonSays()
 all_sprites.add(simonsays)
 
-all_sprites.update()
-all_sprites.draw(window)
 
-def run(window):
+def run(window, bg):
     while True:
-    pygame.display.flip()
-    ev = pygame.event.get()
-    for event in ev:
-        #MOUSEBUTTONUP 
-        if event.type == pygame.MOUSEBUTTONUP:
-            pos = pygame.mouse.get_pos()
-            clicked_sprites = [s for s in all_sprites if s.rect.collidepoint(pos)]
-            if clicked_sprites = [tube]:
-                text_print('The plant seems alright for now.', 40)
-            if clicked_sprites = [screen]:
-                
+        window.blit(bg, (0,0))
+        all_sprites.update()
+        all_sprites.draw(window)
+        pygame.display.flip()
+        ev = pygame.event.get()
+        for event in ev:
+            #MOUSEBUTTONUP 
+            if event.type == pygame.MOUSEBUTTONUP:
+                pos = pygame.mouse.get_pos()
+                clicked_sprites = [s for s in all_sprites if s.rect.collidepoint(pos)]
+                if clicked_sprites == [tube]:
+                    text_print(window, 'The plant seems alright for now.', 60)
+                if clicked_sprites == [screen]:
+                    sudoku.puzzle.run(window)
+
 
 

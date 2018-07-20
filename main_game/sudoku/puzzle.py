@@ -5,7 +5,7 @@
 import pygame
 import math
 import random
-import sudoku_generator
+import sudoku.sudoku_generator as sudoku_generator
 import time
 
 # 6 x 6 sudoku
