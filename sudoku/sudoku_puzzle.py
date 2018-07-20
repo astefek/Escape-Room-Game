@@ -6,6 +6,7 @@ import pygame
 import math
 import random
 import sudoku_generator
+import time
 
 # 6 x 6 sudoku
 # 1-6 in every row
@@ -15,7 +16,7 @@ pygame.init()
 pygame.font.init()
 font = pygame.font.SysFont( 'Arial', 40)
 winFont = pygame.font.SysFont( 'Arial', 30)
-
+winScreenTime = 5
 
 # Window setup
 
@@ -226,6 +227,9 @@ def run(window):
         if player_soln == grid_dict:
 
             window.blit(winMessage, (485, 30) )
+            time.sleep(winScreenTime)
+            return
+
 
 
         # Flip Screen
