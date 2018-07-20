@@ -1,4 +1,4 @@
-import mazetest
+import maze
 import pygame
 
 pygame.init()
@@ -160,7 +160,7 @@ def run(window, puzzles_solved):
                         playerPosn = (playerPosn[0] + scaleFactWid, playerPosn[1])
         
         if solveMaze(playerPosn, findEnd(LoL)) == True:
-            return puzzles_solved += 1
+            return puzzles_solved + 1
         
         pygame.display.flip()
     

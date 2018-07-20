@@ -238,7 +238,7 @@ def run(window, puzzles_solved):
             window.blit(winMessage, (485, 30) )
             pygame.display.flip()
             time.sleep(winScreenTime)
-            return puzzles_solved += 1
+            return puzzles_solved + 1
 
 
 
