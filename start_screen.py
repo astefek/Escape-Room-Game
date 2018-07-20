@@ -5,7 +5,6 @@ import time
 
 import sys
 
-from spritesheet_functions import SpriteSheet
 
 pygame.init()
 
@@ -28,11 +27,6 @@ def image_load(filename):
     image = pygame.transform.scale(image, (20, 30))
     return image
 
-def intro_text():
-    """
-    Prints the introductory text
-    """
-    pass
 
 def loop(state):
     clock.tick(30)
@@ -48,7 +42,7 @@ def loop(state):
     elif state == 1:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 11000:
+        if pygame.time.get_ticks() < 9000:
             state = 1
             return state
         else:
@@ -57,8 +51,8 @@ def loop(state):
     elif state == 2:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 16000:
-            text_print('WARNING')
+        if pygame.time.get_ticks() < 12000:
+            text_print('WARNING', 90)
             state = 2 
             return state
         else:
@@ -67,8 +61,8 @@ def loop(state):
     elif state == 3:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 20000:
-            text_print('FIX ENGINE OR FACE CERTAIN DOOM')
+        if pygame.time.get_ticks() < 19000:
+            text_print('FIX ENGINE OR FACE CERTAIN DOOM', 50)
             state = 3 
             return state 
         else:
@@ -76,11 +70,11 @@ def loop(state):
             return state
     
         
-def text_print(text):
-    largeText = pygame.font.Font('haettenschweiler', 115)
-    TextSurf, TextRect = text_objects(text, largeText)
-    TextRect.center = ((window_width/2), (window_height/2))
-    window.blit(TextSurf, TextRect)
+def text_print(text, size):
+    pygame.font.init()
+    font = pygame.font.SysFont('haettenschweiler', size)
+    textsurface = font.render(text, False, (255, 0, 25))
+    window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (window_height/2) - (textsurface.get_rect().height/2)))
 
 class Asteroid(pygame.sprite.Sprite):
     """
