@@ -142,93 +142,94 @@ player_filled = {}
 
 
  # Main loop
+def run(window):
+    """Runs sudoku"""
+    while True:
 
-while True:
+        # Drawing
 
-    # Drawing
+        window.fill(window_color)
+        
+        # Draw grid boxes
+        for x in range( len(box_pos) ):
+            for y in range( len(box_pos[x]) ):
+                draw_box(window, box_color, box_pos[x][y] + box_dim)
 
-    window.fill(window_color)
-    
-    # Draw grid boxes
-    for x in range( len(box_pos) ):
-        for y in range( len(box_pos[x]) ):
-            draw_box(window, box_color, box_pos[x][y] + box_dim)
+        # Fill in grid with numbers
+        for box in rand_filled_boxes:
+            window.blit( grid_dict[box], ( box[0] + 18, box[1] + 10 ) )
 
-    # Fill in grid with numbers
-    for box in rand_filled_boxes:
-        window.blit( grid_dict[box], ( box[0] + 18, box[1] + 10 ) )
+        pygame.draw.polygon(window, selector_color, selector_pointlist, selector_width)
 
-    pygame.draw.polygon(window, selector_color, selector_pointlist, selector_width)
+        # Draw grid lines
+        #horizontal line
+        pygame.draw.line(window, pygame.Color(200, 165, 135), (30, 239), (450,239), 8 )
+        #vertical lines
+        pygame.draw.line(window, pygame.Color(200, 165, 135), (167, 30), (167,450), 8 )
+        pygame.draw.line(window, pygame.Color(200, 165, 135), (311, 30), (311,450), 8 )
 
-    # Draw grid lines
-    #horizontal line
-    pygame.draw.line(window, pygame.Color(200, 165, 135), (30, 239), (450,239), 8 )
-    #vertical lines
-    pygame.draw.line(window, pygame.Color(200, 165, 135), (167, 30), (167,450), 8 )
-    pygame.draw.line(window, pygame.Color(200, 165, 135), (311, 30), (311,450), 8 )
-
-    #Draw user inputted numbers
-    for box in player_filled:
-        window.blit( player_filled[box], ( box[0] + 18, box[1] + 10 ) )
-
-
-    # User interactions
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:                                   # Quit
-            pygame.quit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and validMove('up'):            # Selector movement
-                for vertex in range(4):
-                    selector_pointlist[vertex][1] -= 72
-            elif event.key == pygame.K_DOWN and validMove('down'):
-                for vertex in range(4):
-                    selector_pointlist[vertex][1] += 72
-            elif event.key == pygame.K_RIGHT and validMove('right'):
-                for vertex in range(4):
-                    selector_pointlist[vertex][0] += 72
-            elif event.key == pygame.K_LEFT and validMove('left'):
-                for vertex in range(4):
-                    selector_pointlist[vertex][0] -= 72
-            
-            elif event.key == pygame.K_1:                              # Inputting numbers
-                current_box = boxFromSelector(selector_pointlist)
-                if current_box not in rand_filled_boxes:
-                    player_filled[current_box] = redOneSurface
-            elif event.key == pygame.K_2:
-                current_box = boxFromSelector(selector_pointlist)
-                if current_box not in rand_filled_boxes:
-                    player_filled[current_box] = redTwoSurface
-            elif event.key == pygame.K_3:
-                current_box = boxFromSelector(selector_pointlist)
-                if current_box not in rand_filled_boxes:
-                    player_filled[current_box] = redThreeSurface
-            elif event.key == pygame.K_4:
-                current_box = boxFromSelector(selector_pointlist)
-                if current_box not in rand_filled_boxes:
-                    player_filled[current_box] = redFourSurface
-            elif event.key == pygame.K_5:
-                current_box = boxFromSelector(selector_pointlist)
-                if current_box not in rand_filled_boxes:
-                    player_filled[current_box] = redFiveSurface
-            elif event.key == pygame.K_6:
-                current_box = boxFromSelector(selector_pointlist)
-                if current_box not in rand_filled_boxes:
-                    player_filled[current_box] = redSixSurface
-
-    # Win Condition
-    player_soln = {}
-    for box in rand_filled_boxes:
-        player_soln[box] = rand_filled_boxes[box]
-    for box in player_filled:
-        player_soln[box] = redToNorm(player_filled[box])
-    if player_soln == grid_dict:
-
-        window.blit(winMessage, (485, 30) )
+        #Draw user inputted numbers
+        for box in player_filled:
+            window.blit( player_filled[box], ( box[0] + 18, box[1] + 10 ) )
 
 
-    # Flip Screen
-    pygame.display.flip()
+        # User interactions
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:                                   # Quit
+                pygame.quit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP and validMove('up'):            # Selector movement
+                    for vertex in range(4):
+                        selector_pointlist[vertex][1] -= 72
+                elif event.key == pygame.K_DOWN and validMove('down'):
+                    for vertex in range(4):
+                        selector_pointlist[vertex][1] += 72
+                elif event.key == pygame.K_RIGHT and validMove('right'):
+                    for vertex in range(4):
+                        selector_pointlist[vertex][0] += 72
+                elif event.key == pygame.K_LEFT and validMove('left'):
+                    for vertex in range(4):
+                        selector_pointlist[vertex][0] -= 72
+                
+                elif event.key == pygame.K_1:                              # Inputting numbers
+                    current_box = boxFromSelector(selector_pointlist)
+                    if current_box not in rand_filled_boxes:
+                        player_filled[current_box] = redOneSurface
+                elif event.key == pygame.K_2:
+                    current_box = boxFromSelector(selector_pointlist)
+                    if current_box not in rand_filled_boxes:
+                        player_filled[current_box] = redTwoSurface
+                elif event.key == pygame.K_3:
+                    current_box = boxFromSelector(selector_pointlist)
+                    if current_box not in rand_filled_boxes:
+                        player_filled[current_box] = redThreeSurface
+                elif event.key == pygame.K_4:
+                    current_box = boxFromSelector(selector_pointlist)
+                    if current_box not in rand_filled_boxes:
+                        player_filled[current_box] = redFourSurface
+                elif event.key == pygame.K_5:
+                    current_box = boxFromSelector(selector_pointlist)
+                    if current_box not in rand_filled_boxes:
+                        player_filled[current_box] = redFiveSurface
+                elif event.key == pygame.K_6:
+                    current_box = boxFromSelector(selector_pointlist)
+                    if current_box not in rand_filled_boxes:
+                        player_filled[current_box] = redSixSurface
+
+        # Win Condition
+        player_soln = {}
+        for box in rand_filled_boxes:
+            player_soln[box] = rand_filled_boxes[box]
+        for box in player_filled:
+            player_soln[box] = redToNorm(player_filled[box])
+        if player_soln == grid_dict:
+
+            window.blit(winMessage, (485, 30) )
+
+
+        # Flip Screen
+        pygame.display.flip()
 
 
 
