@@ -169,22 +169,24 @@ asteroid_sprite.add(asteroid)
 
 # Fire shit 
 flame_sprite = pygame.sprite.Group()
+
 flames = Flames()
 flame_sprite.add(flames)
+
 flames2 = Flames2()
 flame_sprite.add(flames2)
 
-def run(window):
-    state = 0
+
+state = 0
+while True:
     window.blit(startbg, (0, 0))
     event = pygame.event.poll()
     if event.type == pygame.QUIT:
         pygame.quit()
         sys.exit(0)
+    
     state = loop(state)
+        
+
     pygame.display.flip()
-    if state == 4:
-        return 
-
-
 

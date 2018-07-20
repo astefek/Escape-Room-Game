@@ -14,6 +14,11 @@ window.blit(bg, (0,0))
 # Mouse/Cursor 
 pygame.mouse.set_cursor(*pygame.cursors.arrow)
 
+def text_print(text, size):
+    pygame.font.init()
+    font = pygame.font.SysFont('Arial', size)
+    textsurface = font.render(text, False, (255, 0, 25))
+    window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (window_height/2) - (textsurface.get_rect().height/2)))
 
 
 # Sprites 
@@ -87,7 +92,8 @@ all_sprites.add(simonsays)
 all_sprites.update()
 all_sprites.draw(window)
 
-while True:
+def run(window):
+    while True:
     pygame.display.flip()
     ev = pygame.event.get()
     for event in ev:
@@ -95,17 +101,9 @@ while True:
         if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             clicked_sprites = [s for s in all_sprites if s.rect.collidepoint(pos)]
-            if clicked_sprites != []:
-                print(clicked_sprites)
+            if clicked_sprites = [tube]:
+                text_print('The plant seems alright for now.', 40)
+            if clicked_sprites = [screen]:
                 
-
-            pygame.display.flip()
-
-
-   
-    
-
-
-
 
 
