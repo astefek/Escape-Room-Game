@@ -1,5 +1,6 @@
 import pygame
 import sudoku
+import maze
 
 pygame.init()
 pygame.font.init()
@@ -82,6 +83,7 @@ all_sprites.add(tube)
 simonsays = SimonSays()
 all_sprites.add(simonsays)
 
+puzzles_solved = 0
 
 def run(window, bg):
     while True:
@@ -98,7 +100,9 @@ def run(window, bg):
                 if clicked_sprites == [tube]:
                     text_print(window, 'The plant seems alright for now.', 60)
                 if clicked_sprites == [screen]:
-                    sudoku.puzzle.run(window)
+                    sudoku.puzzle.run(window, puzzles_solved)
+                if clicked_sprites == [maze_panel]:
+                    maze.mazePuzz.run(window, puzzles_solved)
 
 
 

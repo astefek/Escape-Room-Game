@@ -34,6 +34,7 @@ clock = pygame.time.Clock()
 pygame.mouse.set_cursor(*pygame.cursors.arrow)
 
 # Progress variable 
+puzzles_solved = 0
 
 
 while True:

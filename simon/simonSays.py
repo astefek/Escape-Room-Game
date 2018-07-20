@@ -1,6 +1,6 @@
 import pygame
-import math
 import random
+import time
 
 pygame.init()
 
@@ -34,14 +34,18 @@ def gameTurn(gameList):
     If it's wrong, converts gameList into an [empty List]
     """
     for color in gameList:
-        userInput = input("Choice: ") # Will change for pygame
-        if userInput != color:
-            return buildList([])
-    if isWinningList(gameList):
-        print("winner is u") 
-        return True
-    else:
-        return gameList + buildList(gameList)
+        backGlow(color)
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP:
+                posn = pygame.mouse.get_pos()
+                userInput = [s for s in buttons if s.rect.collidepoint(posn)]
+                if userInput != color:
+                    return buildList([])
+        if isWinningList(gameList):
+            print("winner is u") 
+            return True
+        else:
+            return gameList + buildList(gameList)
 
 def isWinningList(gameList):
     """
@@ -56,11 +60,23 @@ def isWinningList(gameList):
 
 # +++ DRAWING THE FRONT-END +++ #
 
-BLUE = (58, 58, 191)
-RED = (127, 50, 46)
-GREEN = (85, 255, 66)
-YELLOW = (201, 171, 75)
+# Mouse set-up
+pygame.mouse.set_cursor(*pygame.cursors.arrow)
 
+
+BLUE = (58, 58, 191)
+LIGHTBLUE = (107, 120, 203)
+RED = (127, 50, 46)
+LIGHTRED = (166, 68, 97)
+GREEN = (36, 134, 23)
+LIGHTGREEN = (85, 255, 66)
+YELLOW = (201, 171, 75)
+LIGHTYELLOW = (220, 198, 131)
+
+# the sprite-group of buttons
+buttons = pygame.sprite.Group()
+
+# Buttons set up
 class Button(pygame.sprite.Sprite):
     """
     Defines the button class of sprite.
@@ -75,30 +91,61 @@ class Button(pygame.sprite.Sprite):
 
 border = 10
 twoborder = 2*border
+
 bButton = Button(BLUE, border, border, 360 - twoborder, 240 - twoborder)
+buttons.add(bButton)
+
 rButton = Button(RED, (winWid/2)+border, border, 360 - twoborder, 240 - twoborder)
+buttons.add(rButton)
+
 gButton = Button(GREEN, border, (winHi/2)+border, 360 - twoborder, 240 - twoborder)
+buttons.add(gButton)
+
 yButton = Button(YELLOW, (winWid/2)+border, (winHi/2)+border, 360 - twoborder, 240 - twoborder)
+buttons.add(gButton)
+
 bButtonImage = pygame.draw.rect(window, BLUE, bButton.rect)
 rButtonImage = pygame.draw.rect(window, RED, rButton.rect)
 gButtonImage = pygame.draw.rect(window, GREEN, gButton.rect)
 yButtonImage = pygame.draw.rect(window, YELLOW, yButton.rect)
 
+### Optimize above?
+
 def drawButtons(bButtonImage, rButtonImage, gButtonImage, yButtonImage):
     """
-    Draws each button
+    Draws the buttons of simon says
     """
     bButtonImage = pygame.draw.rect(window, BLUE, bButton.rect)
     rButtonImage = pygame.draw.rect(window, RED, rButton.rect)
     gButtonImage = pygame.draw.rect(window, GREEN, gButton.rect)
     yButtonImage = pygame.draw.rect(window, YELLOW, yButton.rect)
 
-### Optimize above? We'll see how the glow effect goes (draw another larger rect behind the glowing one????)
+def backGlow(color):
+    """
+    Displays a glowing rect if it is called,
+    indicating the user of the gameList
+    """
+    time.sleep(1.0)
+    if color == 'b':
+        bButtonImage = pygame.draw.rect(window, LIGHTBLUE, bButton.rect)
+    if color == 'r':
+        rButtonImage = pygame.draw.rect(window, LIGHTRED, rButton.rect)
+    if color == 'g':
+        gButtonImage = pygame.draw.rect(window, LIGHTGREEN, gButton.rect)
+    if color == 'y':
+        yButtonImage = pygame.draw.rect(window, LIGHTYELLOW, yButton.rect)   
+
 
 # +++ RUNNING THE PUZZLE +++ #
 while True:
     window.fill(windowColor)
     drawButtons(bButtonImage, rButtonImage, gButtonImage, yButtonImage)
+    gameTurn(buildList([]))
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+
     pygame.display.flip()
 
     

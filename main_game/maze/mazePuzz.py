@@ -125,40 +125,42 @@ def solveMaze(playerPosn, endPosn):
 
 
 # +++ PLAYING THE GAME +++ #             
-while True:
-    window.fill(windowColor)
-    mazeWall = drawMaze(LoL)
-    collideableWall = makeWall(LoL)
-    mazeEnd = drawEnd(LoL)
-    playerRect = pygame.draw.rect(playerSurface, playerColor, (playerPosn, playerSize))
-    
-    #   On a directional keypress, checks the space ahead,
-    # determines if it collides, and if it doesn't, moves the player
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit() 
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                futurePlayerRect = pygame.Rect(playerPosn[0], playerPosn[1] - scaleFactHi, scaleFactWid, scaleFactHi)
-                if futurePlayerRect.collidelist(collideableWall) == -1:
-                    playerPosn = (playerPosn[0], playerPosn[1] - scaleFactHi)
-                
-            if event.key == pygame.K_DOWN:
-                futurePlayerRect = pygame.Rect(playerPosn[0], playerPosn[1] + scaleFactHi, scaleFactWid, scaleFactHi)
-                if futurePlayerRect.collidelist(collideableWall) == -1:
-                    playerPosn = (playerPosn[0], playerPosn[1] + scaleFactHi)
+def run(window, puzzles_solved):
+    while True:
+        window.fill(windowColor)
+        mazeWall = drawMaze(LoL)
+        collideableWall = makeWall(LoL)
+        mazeEnd = drawEnd(LoL)
+        playerRect = pygame.draw.rect(playerSurface, playerColor, (playerPosn, playerSize))
+        
+        #   On a directional keypress, checks the space ahead,
+        # determines if it collides, and if it doesn't, moves the player
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit() 
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    futurePlayerRect = pygame.Rect(playerPosn[0], playerPosn[1] - scaleFactHi, scaleFactWid, scaleFactHi)
+                    if futurePlayerRect.collidelist(collideableWall) == -1:
+                        playerPosn = (playerPosn[0], playerPosn[1] - scaleFactHi)
+                    
+                if event.key == pygame.K_DOWN:
+                    futurePlayerRect = pygame.Rect(playerPosn[0], playerPosn[1] + scaleFactHi, scaleFactWid, scaleFactHi)
+                    if futurePlayerRect.collidelist(collideableWall) == -1:
+                        playerPosn = (playerPosn[0], playerPosn[1] + scaleFactHi)
 
-            if event.key == pygame.K_LEFT:
-                futurePlayerRect = futureUpPlayerRect = pygame.Rect(playerPosn[0] - scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
-                if futurePlayerRect.collidelist(collideableWall) == -1:
-                    playerPosn = (playerPosn[0] - scaleFactWid, playerPosn[1])
+                if event.key == pygame.K_LEFT:
+                    futurePlayerRect = futureUpPlayerRect = pygame.Rect(playerPosn[0] - scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
+                    if futurePlayerRect.collidelist(collideableWall) == -1:
+                        playerPosn = (playerPosn[0] - scaleFactWid, playerPosn[1])
 
-            if event.key == pygame.K_RIGHT:
-                futurePlayerRect = pygame.Rect(playerPosn[0] + scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
-                if futurePlayerRect.collidelist(collideableWall) == -1:
-                    playerPosn = (playerPosn[0] + scaleFactWid, playerPosn[1])
+                if event.key == pygame.K_RIGHT:
+                    futurePlayerRect = pygame.Rect(playerPosn[0] + scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
+                    if futurePlayerRect.collidelist(collideableWall) == -1:
+                        playerPosn = (playerPosn[0] + scaleFactWid, playerPosn[1])
+        
+        if solveMaze(playerPosn, findEnd(LoL)) == True:
+            return puzzles_solved += 1
+        
+        pygame.display.flip()
     
-    if solveMaze(playerPosn, findEnd(LoL)) == True:
-        pygame.quit()
-    
-    pygame.display.flip()
