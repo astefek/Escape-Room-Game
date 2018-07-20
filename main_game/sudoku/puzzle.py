@@ -143,8 +143,9 @@ player_filled = {}
 
 
  # Main loop
-def run(window):
+def run(window, puzzles_solved):
     """Runs sudoku"""
+    win = False
     while True:
 
         # Drawing
@@ -218,10 +219,9 @@ def run(window):
                     if current_box not in rand_filled_boxes:
                         player_filled[current_box] = redSixSurface
 
-
                 elif event.key == pygame.K_SPACE:
-                    pass
-
+                    player_filled = {}
+                    
 
         # Flip Screen
         pygame.display.flip()
@@ -233,11 +233,12 @@ def run(window):
         for box in player_filled:
             player_soln[box] = redToNorm(player_filled[box])
         if player_soln == grid_dict:
-
+            win = True
+        if win:
             window.blit(winMessage, (485, 30) )
             pygame.display.flip()
             time.sleep(winScreenTime)
-            return
+            return puzzles_solved += 1
 
 
 
