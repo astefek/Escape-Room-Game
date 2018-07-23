@@ -23,11 +23,11 @@ def close_enough(moved_shape, win_tuple):
     matches = 0
     for win_shape in win_tuple:
         for vertex in moved_shape:
-            for x_leeway in range(-13,14):
-                for y_leeway in range(-13,14):
+            for x_leeway in range(-15,15):
+                for y_leeway in range(-15,15):
                     if (vertex[0] + x_leeway, vertex[1] + y_leeway) in win_shape:
                         matches += 1
-    if matches == len(win_shape):
+    if matches >= len(win_shape):
         return 1
     else: return 0
 
@@ -78,12 +78,11 @@ def reset_num_colors():
     """Returns eight instances of (0,0,0)"""
     return (0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0)
 
-
 def run(window, puzzles_solved):
     """Creates all necessary variables and runs shape game."""
 
     # Generate the goal shape
-    shape_color = pygame.Color(75, 50, 35)
+    shape_color = pygame.Color(0,0,0)
 
     point1 = ( random.choice( range(20,130) ), random.choice( range(60,175))  )
     point2 = ( random.choice( range(20, point1[0]) ), random.choice( range(176,315)) )
@@ -99,7 +98,7 @@ def run(window, puzzles_solved):
     # Splitting the goal shape into eight parts
     point4_5 = midpoint(point4, point5)
     point8_1 = midpoint(point8, point1)
-
+    
     e1 = move_to_side([point8, point6, point7])
     e2 = move_to_side([point8_1, midpoint(point8_1, point4_5), point6])
     e3 = move_to_side([point8_1, point6, point8])
@@ -156,23 +155,9 @@ def run(window, puzzles_solved):
     current_num = 0
 
     # Win message
-    winMessage = winFont.render('Congratulations!', False, (240, 190, 40) )
+    winMessage = winFont.render('Congratulations!', False, (110, 105, 50) )
 
-
-    # Make decoy shapes
-    #decoy_shapes = ()
-    #for x in range(2):
-    #    extra_shape = ()
-    #    vertices = random.choice([3,4])
-    #    for v in range(vertices):
-    #        point = (random.choice(range(350, 400)), random.choice(range(150, 250)))
-    #        extra_shape += point
-    #    decoy_shapes += extra_shape
-
-    #print(decoy_shapes)
-    #print()
-    #print(indiv_shapes)
-
+    # Beginning direction variable definition
     right = False
     left = False
     up = False
@@ -228,7 +213,8 @@ def run(window, puzzles_solved):
         window.fill(window_color)
 
         # Draw goal shape
-        pygame.draw.polygon(window, shape_color, shape_pointlist)
+        for point in shape_pointlist:
+            pygame.draw.circle(window, shape_color, point, 3)
 
         # Draw sub_shapes
         for shape in indiv_shapes:
@@ -311,8 +297,6 @@ def run(window, puzzles_solved):
                     selector_numbers[current_num] = tuple(move_shape(shape, 'down'))
                     break
 
-
-
         # Flip screen
         pygame.display.flip()
 
@@ -325,9 +309,10 @@ def run(window, puzzles_solved):
                 correct_shapes += close_enough(shape, four_win_shapes)
             elif len(shape) == 3:
                 correct_shapes += close_enough(shape, three_win_shapes)
+        print(correct_shapes)
 
         # If game is won
         if correct_shapes == 8:
-            window.blit(winMessage, (485, 30) )
+            window.blit(winMessage, (485, 60) )
             pygame.display.flip()
             time.sleep(winScreenTime)
