@@ -12,6 +12,7 @@ import sudoku.puzzle
 import maze.mazePuzz
 
 
+
 pygame.init()
 pygame.font.init()
 
@@ -43,6 +44,7 @@ while True:
     game_loop = intro.run(window, startbg, font)
     if game_loop == 1:
         graphics.run(window, bg)
+    
 
  
 
