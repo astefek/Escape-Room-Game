@@ -10,6 +10,7 @@ import intro
 import graphics
 import sudoku.puzzle
 import maze.mazePuzz
+import shape_puzzle
 import outro
 
 

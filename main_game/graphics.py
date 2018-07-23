@@ -3,7 +3,7 @@ import sudoku
 import maze.mazePuzz
 import time
 import outro
-
+import shape_puzzle.shape_puzzle as shapes
 
 pygame.init()
 pygame.font.init()
@@ -245,6 +245,8 @@ def run(window, bg):
                     puzzles_solved = sudoku.puzzle.run(window, puzzles_solved)
                 if clicked_sprites == [maze_panel]:
                     puzzles_solved = maze.mazePuzz.run(window, puzzles_solved)
+                if clicked_sprites == [symbol]:
+                    puzzles_solved = shapes.run(window, puzzles_solved)
 
         pygame.display.flip()
 
