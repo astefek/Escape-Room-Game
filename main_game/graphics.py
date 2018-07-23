@@ -100,9 +100,9 @@ def run(window, bg):
                 if clicked_sprites == [tube]:
                     text_print(window, 'The plant seems alright for now.', 60)
                 if clicked_sprites == [screen]:
-                    sudoku.puzzle.run(window, puzzles_solved)
+                    puzzles_solved = sudoku.puzzle.run(window, puzzles_solved)
                 if clicked_sprites == [maze_panel]:
-                    maze.mazePuzz.run(window, puzzles_solved)
+                    puzzles_solved = maze.mazePuzz.run(window, puzzles_solved)
 
 
 
