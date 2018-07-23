@@ -2,18 +2,37 @@
 
 import pygame
 import random
+import time
 
 # Initial setup
 pygame.init()
 pygame.init()
 pygame.font.init()
 font = pygame.font.SysFont('Arial', 40)
+winFont = pygame.font.SysFont( 'Arial', 30)
+winScreenTime = 5
 window_size = [720, 480]
 window_color = pygame.Color(208, 161, 219)
 window = pygame.display.set_mode(window_size)
 
 
 # Function definition
+
+def close_enough(moved_shape, win_tuple):
+    """Takes a moved shape and a tuple of original shape positions and checks 
+    if it fits close enough to be counted as a win."""
+    matches = 0
+    for win_shape in win_tuple:
+        for vertex in moved_shape:
+            for x_leeway in range(-13,14):
+                for y_leeway in range(-13,14):
+                    if ( vertex[0] + x_leeway, vertex[1] + y_leeway) in win_shape:
+                        matches += 1
+    if matches == len(win_tuple):
+        return 1
+    else: return 0
+
+
 def move_shape(shape, dir):
     """Takes a pointlist of a shape and returns a new shape pointlist 1 pixel 
     to the given direction."""
@@ -30,7 +49,6 @@ def move_shape(shape, dir):
         new_shape += [ new_vertex ]
     return(new_shape)
         
-
 def midpoint(point1, point2):
     """Takes two points and returns the midpoint of the line between them."""
     x_coord = (point2[0] - point1[0])/2 + point1[0]
@@ -94,6 +112,17 @@ e6 = move_to_side([point1, midpoint(point8_1, point4_5), point8_1])
 e7 = move_to_side([point2, point3, point4_5])
 e8 = move_to_side([point3, point4, point4_5])
 
+# Make win shape tuples
+# 3 vertex win shapes
+three_win_shapes = ([point8, point6, point7], [tuple(point8_1), tuple(midpoint(point8_1, point4_5)), point6], \
+[tuple(point8_1), point6, point8], [point1, tuple(midpoint(point8_1, point4_5)), tuple(point8_1)], \
+[point2, point3, tuple(point4_5)], [point3, point4, tuple(point4_5)])
+
+# 4 vertex win shapes
+four_win_shapes = ([tuple(midpoint(point8_1, point4_5)), tuple(point4_5), point5, point6], \
+[point1, point2, tuple(point4_5), tuple(midpoint(point4_5, point8_1))])
+
+
 # Disperse shapes
 subshape_list = [e1, e2, e3, e4, e5, e6, e7, e8]
 indiv_shapes = {}
@@ -129,6 +158,9 @@ box_pos = [[20 + x, 10] for x in range(0, 510, 70)]
 box_dim = [50, 50]
 current_num = 0
 
+# Win message
+winMessage = winFont.render('Congratulations!', False, (240, 190, 40) )
+
 
 # Make decoy shapes
 #decoy_shapes = ()
@@ -143,8 +175,6 @@ current_num = 0
 #print(decoy_shapes)
 #print()
 #print(indiv_shapes)
-
-# -------------------------Test print statements for debugging------------------------------------
 
 
 # Main loop
@@ -242,10 +272,17 @@ while True:
                         indiv_shapes.pop(shape)
                         selector_numbers[current_num] = tuple(move_shape(shape, 'down'))
 
-
-    # Win condition
-
-    
-
     # Flip screen
     pygame.display.flip()
+
+    # Win condition
+    correct_shapes = 0
+    for shape in indiv_shapes:
+        if len(shape) == 4:
+            correct_shapes += close_enough(shape, four_win_shapes)
+        elif len(shape) == 3:
+            correct_shapes += close_enough(shape, three_win_shapes)
+    if correct_shapes == 8:
+        window.blit(winMessage, (485, 30) )
+        pygame.display.flip()
+        time.sleep(winScreenTime)
