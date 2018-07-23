@@ -6,7 +6,6 @@ import time
 
 # Initial setup
 pygame.init()
-pygame.init()
 pygame.font.init()
 font = pygame.font.SysFont('Arial', 40)
 winFont = pygame.font.SysFont( 'Arial', 30)
@@ -26,9 +25,9 @@ def close_enough(moved_shape, win_tuple):
         for vertex in moved_shape:
             for x_leeway in range(-13,14):
                 for y_leeway in range(-13,14):
-                    if ( vertex[0] + x_leeway, vertex[1] + y_leeway) in win_shape:
+                    if (vertex[0] + x_leeway, vertex[1] + y_leeway) in win_shape:
                         matches += 1
-    if matches == len(win_tuple):
+    if matches == len(win_shape):
         return 1
     else: return 0
 
@@ -39,13 +38,13 @@ def move_shape(shape, dir):
     new_shape = []
     for vertex in shape:
         if dir == 'left':
-            new_vertex = (vertex[0] - 1, vertex[1])
+            new_vertex = (vertex[0] - 2, vertex[1])
         elif dir == 'right':
-            new_vertex = (vertex[0] + 1, vertex[1])
+            new_vertex = (vertex[0] + 2, vertex[1])
         elif dir == 'up':
-            new_vertex = (vertex[0], vertex[1] - 1)
+            new_vertex = (vertex[0], vertex[1] - 2)
         elif dir == 'down':
-            new_vertex = (vertex[0], vertex[1] + 1)
+            new_vertex = (vertex[0], vertex[1] + 2)
         new_shape += [ new_vertex ]
     return(new_shape)
         
@@ -176,113 +175,143 @@ winMessage = winFont.render('Congratulations!', False, (240, 190, 40) )
 #print()
 #print(indiv_shapes)
 
+right = False
+left = False
+up = False
+down = False
 
-# Main loop
-while True:
+def run(window, puzzles_solved):
+    """Runs shape game"""
+    while True:
 
-    # Num definition            
-    oneSurface   = font.render('1', False, oneColor )
-    twoSurface   = font.render('2', False, twoColor )
-    threeSurface = font.render('3', False, threeColor )
-    fourSurface  = font.render('4', False, fourColor )
-    fiveSurface  = font.render('5', False, fiveColor )
-    sixSurface   = font.render('6', False, sixColor )
-    sevenSurface = font.render('7', False, sevenColor )
-    eightSurface = font.render('8', False, eightColor )
-    
-    # Number boxes 
-    box_nums = [oneSurface, twoSurface, threeSurface, fourSurface, fiveSurface, sixSurface, sevenSurface, eightSurface]
+        # Num definition            
+        oneSurface   = font.render('1', False, oneColor )
+        twoSurface   = font.render('2', False, twoColor )
+        threeSurface = font.render('3', False, threeColor )
+        fourSurface  = font.render('4', False, fourColor )
+        fiveSurface  = font.render('5', False, fiveColor )
+        sixSurface   = font.render('6', False, sixColor )
+        sevenSurface = font.render('7', False, sevenColor )
+        eightSurface = font.render('8', False, eightColor )
+        
+        # Number boxes 
+        box_nums = [oneSurface, twoSurface, threeSurface, fourSurface, fiveSurface, sixSurface, sevenSurface, eightSurface]
 
-    # Drawing
-    window.fill(window_color)
+        # Drawing
+        window.fill(window_color)
 
-    # Draw goal shape
-    pygame.draw.polygon(window, shape_color, shape_pointlist)
+        # Draw goal shape
+        pygame.draw.polygon(window, shape_color, shape_pointlist)
 
-    # Draw sub_shapes
-    for shape in indiv_shapes:
-        pygame.draw.polygon(window, indiv_shapes[shape] , shape)
+        # Draw sub_shapes
+        for shape in indiv_shapes:
+            pygame.draw.polygon(window, indiv_shapes[shape] , shape)
 
-    # Draw selector boxes
-    for box in range(len(box_pos)):
-        pygame.draw.rect(window, indiv_shapes[selector_numbers[box]] , box_pos[box] + box_dim)
-        window.blit( box_nums[box], ( box_pos[box][0] + 14, box_pos[box][1] + 3 ) )
-    
+        # Draw selector boxes
+        for box in range(len(box_pos)):
+            pygame.draw.rect(window, indiv_shapes[selector_numbers[box]] , box_pos[box] + box_dim)
+            window.blit( box_nums[box], ( box_pos[box][0] + 14, box_pos[box][1] + 3 ) )
 
-    # User interaction
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:                                                           # Quit
-            pygame.quit()    
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1:                                                     # Selector box movement
-                current_num = 0
-                oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                oneColor = (255,255,255)
-            elif event.key == pygame.K_2:
-                current_num = 1
-                oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                twoColor = (255,255,255)
-            elif event.key == pygame.K_3:
-                current_num = 2
-                oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                threeColor = (255,255,255)
-            elif event.key == pygame.K_4:
-                current_num = 3
-                oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                fourColor = (255,255,255)
-            elif event.key == pygame.K_5:
-                current_num = 4
-                oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                fiveColor = (255,255,255)
-            elif event.key == pygame.K_6:
-                current_num = 5
-                oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                sixColor = (255,255,255)
-            elif event.key == pygame.K_7:
-                current_num = 6
-                oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                sevenColor = (255,255,255)
-            elif event.key == pygame.K_8:
-                current_num = 7
-                oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                eightColor = (255,255,255)
 
-            elif event.key == pygame.K_RIGHT:                                                   # Shape movement
-                for shape in indiv_shapes:
-                    if shape == selector_numbers[current_num]:
-                        indiv_shapes[tuple(move_shape(shape,'right'))] = indiv_shapes[shape]
-                        indiv_shapes.pop(shape)
-                        selector_numbers[current_num] = tuple(move_shape(shape, 'right'))
-            elif event.key == pygame.K_LEFT:
-                for shape in indiv_shapes:
-                    if shape == selector_numbers[current_num]:
-                        indiv_shapes[tuple(move_shape(shape,'left'))] = indiv_shapes[shape]
-                        indiv_shapes.pop(shape)
-                        selector_numbers[current_num] = tuple(move_shape(shape, 'left'))
-            elif event.key == pygame.K_UP:
-                for shape in indiv_shapes:
-                    if shape == selector_numbers[current_num]:
-                        indiv_shapes[tuple(move_shape(shape,'up'))] = indiv_shapes[shape]
-                        indiv_shapes.pop(shape)
-                        selector_numbers[current_num] = tuple(move_shape(shape, 'up'))
-            elif event.key == pygame.K_DOWN:
-                for shape in indiv_shapes:
-                    if shape == selector_numbers[current_num]:
-                        indiv_shapes[tuple(move_shape(shape,'down'))] = indiv_shapes[shape]
-                        indiv_shapes.pop(shape)
-                        selector_numbers[current_num] = tuple(move_shape(shape, 'down'))
+        # User interaction
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:                                                           # Quit
+                pygame.quit()    
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:                                                     # Selector box movement
+                    current_num = 0
+                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+                    oneColor = (255,255,255)
+                elif event.key == pygame.K_2:
+                    current_num = 1
+                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+                    twoColor = (255,255,255)
+                elif event.key == pygame.K_3:
+                    current_num = 2
+                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+                    threeColor = (255,255,255)
+                elif event.key == pygame.K_4:
+                    current_num = 3
+                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+                    fourColor = (255,255,255)
+                elif event.key == pygame.K_5:
+                    current_num = 4
+                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+                    fiveColor = (255,255,255)
+                elif event.key == pygame.K_6:
+                    current_num = 5
+                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+                    sixColor = (255,255,255)
+                elif event.key == pygame.K_7:
+                    current_num = 6
+                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+                    sevenColor = (255,255,255)
+                elif event.key == pygame.K_8:
+                    current_num = 7
+                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+                    eightColor = (255,255,255)
 
-    # Flip screen
-    pygame.display.flip()
+                elif event.key == pygame.K_RIGHT:                                                   # Shape movement
+                    right = True
+                elif event.key == pygame.K_LEFT:
+                    left = True
+                elif event.key == pygame.K_UP:
+                    up = True
+                elif event.key == pygame.K_DOWN:
+                    down = True
+                
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:                                                  
+                    right = False
+                elif event.key == pygame.K_LEFT:
+                    left = False
+                elif event.key == pygame.K_UP:
+                    up = False
+                elif event.key == pygame.K_DOWN:
+                    down = False
+                    
 
-    # Win condition
-    correct_shapes = 0
-    for shape in indiv_shapes:
-        if len(shape) == 4:
-            correct_shapes += close_enough(shape, four_win_shapes)
-        elif len(shape) == 3:
-            correct_shapes += close_enough(shape, three_win_shapes)
-    if correct_shapes == 8:
-        window.blit(winMessage, (485, 30) )
+        if right:
+            for shape in indiv_shapes:
+                if shape == selector_numbers[current_num]:
+                    indiv_shapes[tuple(move_shape(shape,'right'))] = indiv_shapes[shape]
+                    indiv_shapes.pop(shape)
+                    selector_numbers[current_num] = tuple(move_shape(shape, 'right'))
+                    break
+        if left:
+            for shape in indiv_shapes:
+                if shape == selector_numbers[current_num]:
+                    indiv_shapes[tuple(move_shape(shape,'left'))] = indiv_shapes[shape]
+                    indiv_shapes.pop(shape)
+                    selector_numbers[current_num] = tuple(move_shape(shape, 'left'))
+                    break
+        if up:
+            for shape in indiv_shapes:
+                if shape == selector_numbers[current_num]:
+                    indiv_shapes[tuple(move_shape(shape,'up'))] = indiv_shapes[shape]
+                    indiv_shapes.pop(shape)
+                    selector_numbers[current_num] = tuple(move_shape(shape, 'up'))
+                    break
+        if down:
+            for shape in indiv_shapes:
+                if shape == selector_numbers[current_num]:
+                    indiv_shapes[tuple(move_shape(shape,'down'))] = indiv_shapes[shape]
+                    indiv_shapes.pop(shape)
+                    selector_numbers[current_num] = tuple(move_shape(shape, 'down'))
+                    break
+
+        # Flip screen
         pygame.display.flip()
-        time.sleep(winScreenTime)
+
+        # Win condition
+        correct_shapes = 0
+        for shape in indiv_shapes:
+            if len(shape) == 4:
+                correct_shapes += close_enough(shape, four_win_shapes)
+            elif len(shape) == 3:
+                correct_shapes += close_enough(shape, three_win_shapes)
+        
+        if correct_shapes == 8:
+            window.blit(winMessage, (485, 30) )
+            pygame.display.flip()
+            time.sleep(winScreenTime)
