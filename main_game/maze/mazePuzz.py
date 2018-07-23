@@ -1,4 +1,4 @@
-import maze
+import maze.mazetest as mazetest
 import pygame
 
 pygame.init()
@@ -126,6 +126,10 @@ def solveMaze(playerPosn, endPosn):
 
 # +++ PLAYING THE GAME +++ #             
 def run(window, puzzles_solved):
+    playerSurface = window 
+    playerColor = pygame.Color(217, 226, 115) 
+    playerSize = (scaleFactWid, scaleFactHi)
+    playerPosn = (scaleFactWid, scaleFactHi)
     while True:
         window.fill(windowColor)
         mazeWall = drawMaze(LoL)

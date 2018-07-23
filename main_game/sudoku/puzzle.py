@@ -139,12 +139,13 @@ for x in range(10):                                                   # Num boxe
         if available_keys[i] == box_selection: loc = i
     available_keys = available_keys[:loc] + available_keys[:loc:-1]
 
-player_filled = {}
+
 
 
  # Main loop
 def run(window, puzzles_solved):
     """Runs sudoku"""
+    player_filled = {}
     win = False
     while True:
 

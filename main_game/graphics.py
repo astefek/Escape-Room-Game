@@ -1,6 +1,7 @@
 import pygame
 import sudoku
-import maze
+import maze.mazePuzz
+
 
 pygame.init()
 pygame.font.init()
@@ -10,10 +11,10 @@ window_height = 480
 window = pygame.display.set_mode([window_width, window_height])
 
 def text_print(window, text, size):
-    font = pygame.font.SysFont('Arial', size)
+    font = pygame.font.SysFont('arial', size)
     textsurface = font.render(text, False, (0, 0, 0))
+    print(textsurface)
     window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (window_height/2) - (textsurface.get_rect().height/2)))
-
 
 # Sprites 
 all_sprites = pygame.sprite.Group()
@@ -83,14 +84,22 @@ all_sprites.add(tube)
 simonsays = SimonSays()
 all_sprites.add(simonsays)
 
-puzzles_solved = 0
 
 def run(window, bg):
+    puzzles_solved = 0
+    plant_text = False
+
     while True:
         window.blit(bg, (0,0))
         all_sprites.update()
         all_sprites.draw(window)
-        pygame.display.flip()
+        
+        if plant_text == True:
+            text_print(window, 'The plant seems alright for now.', 60)
+            new_clock = pygame.time.Clock.tick()
+            if plant_clock == new_clock + 5000:
+                plant_text = False
+
         ev = pygame.event.get()
         for event in ev:
             #MOUSEBUTTONUP 
@@ -98,11 +107,14 @@ def run(window, bg):
                 pos = pygame.mouse.get_pos()
                 clicked_sprites = [s for s in all_sprites if s.rect.collidepoint(pos)]
                 if clicked_sprites == [tube]:
-                    text_print(window, 'The plant seems alright for now.', 60)
+                    plant_text = True
+                    plant_clock = pygame.time.Clock.tick()
                 if clicked_sprites == [screen]:
                     puzzles_solved = sudoku.puzzle.run(window, puzzles_solved)
                 if clicked_sprites == [maze_panel]:
                     puzzles_solved = maze.mazePuzz.run(window, puzzles_solved)
+        pygame.display.flip()
+                
 
 
 

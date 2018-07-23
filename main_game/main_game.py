@@ -9,7 +9,8 @@ import math
 import intro
 import graphics
 import sudoku.puzzle
-import maze
+import maze.mazePuzz
+
 
 pygame.init()
 pygame.font.init()

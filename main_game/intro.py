@@ -27,18 +27,16 @@ def loop(window):
     global state
     clock.tick(30)
     if state == 0:
-        asteroid_sprite.update()
-        asteroid_sprite.draw(window)
-        if pygame.time.get_ticks() < 7000:
+        if pygame.time.get_ticks() < 10000:
             state = 0
             return state
         else:
             state = 1
             return state
-    elif state == 1:
-        flame_sprite.update()
-        flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 10000:
+    if state == 1:
+        asteroid_sprite.update()
+        asteroid_sprite.draw(window)
+        if pygame.time.get_ticks() < 16000:
             state = 1
             return state
         else:
@@ -47,22 +45,31 @@ def loop(window):
     elif state == 2:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 13000:
-            text_print(window, 'WARNING', 90)
-            state = 2 
+        if pygame.time.get_ticks() < 17000:
+            state = 2
             return state
         else:
-            state = 3 
+            state = 3
             return state
     elif state == 3:
         flame_sprite.update()
         flame_sprite.draw(window)
-        if pygame.time.get_ticks() < 16000:
-            text_print(window, 'FIX ENGINE OR FACE CERTAIN DOOM', 50)
+        if pygame.time.get_ticks() < 20000:
+            text_print(window, 'WARNING', 90)
             state = 3 
+            return state
+        else:
+            state = 4 
+            return state
+    elif state == 4:
+        flame_sprite.update()
+        flame_sprite.draw(window)
+        if pygame.time.get_ticks() < 23000:
+            text_print(window, 'FIX ENGINE OR FACE CERTAIN DOOM', 50)
+            state = 4 
             return state 
         else:
-            state = 4
+            state = 5
             return state
     else:
         return 
@@ -182,7 +189,7 @@ def run(window, bg, font):
         sys.exit(0)
     state = loop(window)
     pygame.display.flip()
-    if state == 4:
+    if state == 5:
         return 1
 
 
