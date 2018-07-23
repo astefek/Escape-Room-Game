@@ -218,11 +218,15 @@ def run(window, puzzles_solved):
                     current_box = boxFromSelector(selector_pointlist)
                     if current_box not in rand_filled_boxes:
                         player_filled[current_box] = redSixSurface
-
                 elif event.key == pygame.K_SPACE:
                     player_filled = {}
-                    
+                elif event.key == pygame.K_BACKSPACE:
+                    try:
+                        player_filled.pop(current_box)
+                    except:
+                        pass
 
+                    
         # Flip Screen
         pygame.display.flip()
 
