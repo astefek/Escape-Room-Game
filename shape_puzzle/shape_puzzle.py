@@ -90,7 +90,6 @@ point5 = ( random.choice( range(240,330)), random.choice( range(315,455)) )
 point7 = ( point5[0] + 20, random.choice( range(60,175))  )
 point6 = ( random.choice( range(point5[0],point7[0])), random.choice( range(176,315)) )
 point8 = ( random.choice( range(131,240)), random.choice( range(60,point7[1]))  )
-
 shape_pointlist = [point1, point2, point3, point4, point5, point6, point7, point8]
 
 
@@ -197,6 +196,31 @@ def run(window, puzzles_solved):
         # Number boxes 
         box_nums = [oneSurface, twoSurface, threeSurface, fourSurface, fiveSurface, sixSurface, sevenSurface, eightSurface]
 
+        if current_num == 0:                                                                   # Selector number colors
+            oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+            oneColor = (255,255,255)
+        elif current_num == 1:
+            oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+            twoColor = (255,255,255)
+        elif current_num == 2:
+            oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+            threeColor = (255,255,255)
+        elif current_num == 3:
+            oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+            fourColor = (255,255,255)
+        elif current_num == 4:
+            oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+            fiveColor = (255,255,255)
+        elif current_num == 5:
+            oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+            sixColor = (255,255,255)
+        elif current_num == 6:
+            oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+            sevenColor = (255,255,255)
+        elif current_num == 7:
+            oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+            eightColor = (255,255,255)
+
         # Drawing
         window.fill(window_color)
 
@@ -220,37 +244,20 @@ def run(window, puzzles_solved):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:                                                     # Selector box movement
                     current_num = 0
-                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                    oneColor = (255,255,255)
                 elif event.key == pygame.K_2:
                     current_num = 1
-                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                    twoColor = (255,255,255)
                 elif event.key == pygame.K_3:
                     current_num = 2
-                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                    threeColor = (255,255,255)
                 elif event.key == pygame.K_4:
                     current_num = 3
-                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                    fourColor = (255,255,255)
                 elif event.key == pygame.K_5:
                     current_num = 4
-                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                    fiveColor = (255,255,255)
                 elif event.key == pygame.K_6:
                     current_num = 5
-                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                    sixColor = (255,255,255)
                 elif event.key == pygame.K_7:
                     current_num = 6
-                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                    sevenColor = (255,255,255)
                 elif event.key == pygame.K_8:
                     current_num = 7
-                    oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-                    eightColor = (255,255,255)
-
                 elif event.key == pygame.K_RIGHT:                                                   # Shape movement
                     right = True
                 elif event.key == pygame.K_LEFT:
@@ -259,7 +266,7 @@ def run(window, puzzles_solved):
                     up = True
                 elif event.key == pygame.K_DOWN:
                     down = True
-                
+
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:                                                  
                     right = False
@@ -269,9 +276,8 @@ def run(window, puzzles_solved):
                     up = False
                 elif event.key == pygame.K_DOWN:
                     down = False
-                    
 
-        if right:
+        if right:                                                                                 # Shape movement
             for shape in indiv_shapes:
                 if shape == selector_numbers[current_num]:
                     indiv_shapes[tuple(move_shape(shape,'right'))] = indiv_shapes[shape]
@@ -299,6 +305,8 @@ def run(window, puzzles_solved):
                     indiv_shapes.pop(shape)
                     selector_numbers[current_num] = tuple(move_shape(shape, 'down'))
                     break
+    
+
 
         # Flip screen
         pygame.display.flip()
