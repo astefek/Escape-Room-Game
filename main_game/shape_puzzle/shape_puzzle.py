@@ -245,7 +245,9 @@ def run(window, puzzles_solved):
             if event.type == pygame.QUIT:                                                           # Quit
                 pygame.quit()    
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_1:                                                     # Selector box movement
+                if event.key == pygame.K_q:
+                    return puzzles_solved
+                elif event.key == pygame.K_1:                                                     # Selector box movement
                     current_num = 0
                 elif event.key == pygame.K_2:
                     current_num = 1
@@ -316,12 +318,15 @@ def run(window, puzzles_solved):
 
         # Win condition
         correct_shapes = 0
+
+        # Check if game is won
         for shape in indiv_shapes:
             if len(shape) == 4:
                 correct_shapes += close_enough(shape, four_win_shapes)
             elif len(shape) == 3:
                 correct_shapes += close_enough(shape, three_win_shapes)
-        
+
+        # If game is won
         if correct_shapes == 8:
             window.blit(winMessage, (485, 30) )
             pygame.display.flip()

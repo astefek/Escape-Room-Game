@@ -226,6 +226,8 @@ def run(window, puzzles_solved):
                         player_filled.pop(current_box)
                     except:
                         pass
+                elif event.key == pygame.K_q:
+                    return puzzles_solved
 
                     
         # Flip Screen
