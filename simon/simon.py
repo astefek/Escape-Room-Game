@@ -99,36 +99,135 @@ allButtons.add(greenButton)
 yellowButton = yellowButton()
 allButtons.add(yellowButton)
 
+# ++++ CREATING THE BACK-END ++++ #
+# features two phases of play -- the read phase and the input phase
+
+def buildList(gameList):
+    """
+    Builds the list of buttons fit for a simon says game.
+
+    On each call, adds a random element to the constructed list.
+    Previous elements remain unchanged.
+    """
+    #gameList += [random.choice(['b', 'r', 'g', 'y'])]
+    gameList.append(random.choice(['b', 'r', 'g', 'y']))
+    #return gameList
+
+def readList(gameList):
+    """
+    Takes in a gameList and flashes the button for each corrosponding
+    element in the gameList
+    """
+    while True:
+        window.fill(windowColor)
 
 
+    for color in gameList:
+        if color == 'b':
+            pygame.draw.rect(window, LIGHTBLUE, blueButton.rect)
+            pygame.display.flip()
+            time.sleep(1)
+            pygame.draw.rect(window, BLUE, blueButton.rect)
+            pygame.display.flip()
+        elif color == 'r':
+            pygame.draw.rect(window, LIGHTRED, redButton.rect)
+            pygame.display.flip()
+            time.sleep(1)
+            pygame.draw.rect(window, RED, redButton.rect)
+            pygame.display.flip()
+        elif color == 'g':
+            pygame.draw.rect(window, LIGHTGREEN, greenButton.rect)
+            pygame.display.flip()
+            time.sleep(1)
+            pygame.draw.rect(window, GREEN, greenButton.rect)
+            pygame.display.flip()
+        elif color == 'y':
+            pygame.draw.rect(window, LIGHTYELLOW, yellowButton.rect)
+            pygame.display.flip()
+            time.sleep(1)
+            pygame.draw.rect(window, YELLOW, yellowButton.rect)
+            pygame.display.flip()
+    return gameList
+
+
+def readPhase(gameList):
+    """
+    Builds a gameList, then displays it to the user
+    """
+    buildList(gameList)
+    readList(gameList)
+
+def seeInput():
+    """
+    On a click, flashes the selected button and returns it as input
+    """
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP:
+                if blueButton.rect.collidepoint(event.pos):
+                    pygame.draw.rect(window, LIGHTBLUE, blueButton.rect)
+                    pygame.display.flip()
+                    return 'b'
+                elif redButton.rect.collidepoint(event.pos):
+                    pygame.draw.rect(window, LIGHTRED, redButton.rect)
+                    pygame.display.flip()
+                    return 'r'
+                elif greenButton.rect.collidepoint(event.pos):
+                    pygame.draw.rect(window, LIGHTGREEN, greenButton.rect)
+                    pygame.display.flip()
+                    return 'g'
+                elif yellowButton.rect.collidepoint(event.pos):
+                    pygame.draw.rect(window, LIGHTYELLOW, yellowButton.rect)
+                    pygame.display.flip()
+                    return 'y'
+            elif event.type == pygame.QUIT:
+                pygame.quit()
+            
+    
+# def checkMove(answer, input):
+#     """
+#     Checks each input to see if it aligns with each element in
+#     the gameList
+#     """
+#     return input == answer
+#         #buildList(gameList)
+
+#     # for color in gameList:
+#     #     #if input == None:
+#     #     #    pass
+#     #     if input != color:
+#     #         gameList = []
+#     #         return gameList
+#     # return gameList
+
+def inputPhase(gameList):
+    """
+    Determines the user's input and checks to see if it matches
+    the gameList
+    """
+
+    next = 0
+    while True:
+        if gameList[next] == seeInput():
+            next += 1
+        else:
+            gameList.clear()
+            break
+        if next >= len(gameList):
+            break
+
+
+
+def playRound(gameList):
+    """
+    Runs a turn of simon-says, or cycles through the two phases in the game
+    """
+    readPhase(gameList)
+    inputPhase(gameList)
 
 # +*~*+ RUNNING THE GAME +*~*+ #
+def run(gameList):
+    while True:
+        playRound(gameList)
 
-while True:
-    allButtons.update()
-    allButtons.draw(window)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-
-        # on input phase ONLY #
-        if event.type == pygame.MOUSEBUTTONUP:
-            pos = pygame.mouse.get_pos()
-            if blueButton.rect.collidepoint(pos):
-                pygame.draw.rect(window, LIGHTBLUE, blueButton.rect)
-                pygame.display.flip()
-                time.sleep(1)
-            elif redButton.rect.collidepoint(pos):
-                pygame.draw.rect(window, LIGHTRED, redButton.rect)
-                pygame.display.flip()
-                time.sleep(1)
-            elif greenButton.rect.collidepoint(pos):
-                pygame.draw.rect(window, LIGHTGREEN, greenButton.rect)
-                pygame.display.flip()
-                time.sleep(1)
-            elif yellowButton.rect.collidepoint(pos):
-                pygame.draw.rect(window, LIGHTYELLOW, yellowButton.rect)
-                pygame.display.flip()
-                time.sleep(1)
-
-    pygame.display.flip()
+run([])
