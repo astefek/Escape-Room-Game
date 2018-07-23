@@ -73,7 +73,7 @@ def loop(window):
 
     
 def text_print(window, text, size):
-    font = pygame.font.SysFont('arial', size)
+    font = pygame.font.SysFont('haettenschweiler', size)
     textsurface = font.render(text, False, (255, 255, 255))
     window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (window_height/2) - (textsurface.get_rect().height/2)))
 
@@ -159,17 +159,12 @@ flame_sprite.update()
 
 
 def run(window, bg):
-    while True:
-        global state
-        window.blit(bg, (0, 0))
-        state = loop(window)
-        pygame.display.flip()
-        if state == 5:
-            break
-
-
-run(window, startbg)
-
+    global state
+    window.blit(bg, (0, 0))
+    state = loop(window)
+    pygame.display.flip()
+    if state == 5:
+        pygame.QUIT()
 
 
 
