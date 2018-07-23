@@ -10,6 +10,7 @@ import intro
 import graphics
 import sudoku.puzzle
 import maze.mazePuzz
+import outro
 
 
 
@@ -43,7 +44,9 @@ while True:
     # Start Screen
     game_loop = intro.run(window, startbg, font)
     if game_loop == 1:
-        graphics.run(window, bg)
+        game_loop = graphics.run(window, bg)
+    if game_loop == 2:
+        outro.run(window, startbg)
     
 
  
