@@ -31,7 +31,6 @@ def close_enough(moved_shape, win_tuple):
         return 1
     else: return 0
 
-
 def move_shape(shape, dir):
     """Takes a pointlist of a shape and returns a new shape pointlist 1 pixel 
     to the given direction."""
@@ -79,124 +78,114 @@ def reset_num_colors():
     """Returns eight instances of (0,0,0)"""
     return (0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0)
 
-# Generate the goal shape
-shape_color = pygame.Color(75, 50, 35)
-
-point1 = ( random.choice( range(20,130) ), random.choice( range(60,175))  )
-point2 = ( random.choice( range(20, point1[0]) ), random.choice( range(176,315)) )
-point3 = ( random.choice( range(20,130) ), random.choice( range(315,455)) )
-point4 = ( random.choice( range(131,240)), random.choice( range(point3[1],455)) )
-point5 = ( random.choice( range(240,330)), random.choice( range(315,455)) )
-point7 = ( point5[0] + 20, random.choice( range(60,175))  )
-point6 = ( random.choice( range(point5[0],point7[0])), random.choice( range(176,315)) )
-point8 = ( random.choice( range(131,240)), random.choice( range(60,point7[1]))  )
-shape_pointlist = [point1, point2, point3, point4, point5, point6, point7, point8]
-
-
-# Initial number colors
-oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
-oneColor = (255,255,255)
-
-# Splitting the goal shape into eight parts
-point4_5 = midpoint(point4, point5)
-point8_1 = midpoint(point8, point1)
-
-e1 = move_to_side([point8, point6, point7])
-e2 = move_to_side([point8_1, midpoint(point8_1, point4_5), point6])
-e3 = move_to_side([point8_1, point6, point8])
-e4 = move_to_side([midpoint(point8_1, point4_5), point4_5, point5, point6])
-e5 = move_to_side([point1, point2, point4_5, midpoint(point4_5, point8_1)])
-e6 = move_to_side([point1, midpoint(point8_1, point4_5), point8_1])
-e7 = move_to_side([point2, point3, point4_5])
-e8 = move_to_side([point3, point4, point4_5])
-
-# Make win shape tuples
-# 3 vertex win shapes
-three_win_shapes = ([point8, point6, point7], [tuple(point8_1), tuple(midpoint(point8_1, point4_5)), point6], \
-[tuple(point8_1), point6, point8], [point1, tuple(midpoint(point8_1, point4_5)), tuple(point8_1)], \
-[point2, point3, tuple(point4_5)], [point3, point4, tuple(point4_5)])
-
-# 4 vertex win shapes
-four_win_shapes = ([tuple(midpoint(point8_1, point4_5)), tuple(point4_5), point5, point6], \
-[point1, point2, tuple(point4_5), tuple(midpoint(point4_5, point8_1))])
-
-
-# Disperse shapes
-subshape_list = [e1, e2, e3, e4, e5, e6, e7, e8]
-indiv_shapes = {}
-available_colors = [pygame.Color(255, 45, 40), pygame.Color(255, 230, 17), pygame.Color(28, 185, 65), pygame.Color(45, 255, 25), \
-pygame.Color(40, 45, 210), pygame.Color(30, 205, 220) , pygame.Color(255, 113, 29), pygame.Color(170, 28, 186)]
-
-for sub_shape in subshape_list:
-    while True:
-        neweighth = random_pos(sub_shape)
-        errors = 0
-        for point in neweighth:
-            if point[0] <= 350 or point[0] >= 720 or point[1] <= 60 or point[1] >= 480:
-                errors += 1
-        if errors == 0:
-            index = random.choice(range(len(available_colors)))
-            indiv_shapes[tuple(neweighth)] = available_colors[index]
-            available_colors = available_colors[:index] + available_colors[:index:-1]
-            break
-
-# Assign shapes to numbers
-selector_numbers = {}
-available_shapes = []
-for shape in indiv_shapes:
-    available_shapes.append(shape)
-
-for num in range(8):
-    index = random.choice(range(len(available_shapes)))
-    selector_numbers[num] = available_shapes[index]
-    available_shapes = available_shapes[:index] + available_shapes[index+1::]
-
-# Make selector boxes
-box_pos = [[20 + x, 10] for x in range(0, 510, 70)]
-box_dim = [50, 50]
-current_num = 0
-
-# Win message
-winMessage = winFont.render('Congratulations!', False, (240, 190, 40) )
-
-
-# Make decoy shapes
-#decoy_shapes = ()
-#for x in range(2):
-#    extra_shape = ()
-#    vertices = random.choice([3,4])
-#    for v in range(vertices):
-#        point = (random.choice(range(350, 400)), random.choice(range(150, 250)))
-#        extra_shape += point
-#    decoy_shapes += extra_shape
-
-#print(decoy_shapes)
-#print()
-#print(indiv_shapes)
-
-right = False
-left = False
-up = False
-down = False
 
 def run(window, puzzles_solved):
-    """Runs shape game"""
+    """Creates all necessary variables and runs shape game."""
+
+    # Generate the goal shape
+    shape_color = pygame.Color(75, 50, 35)
+
+    point1 = ( random.choice( range(20,130) ), random.choice( range(60,175))  )
+    point2 = ( random.choice( range(20, point1[0]) ), random.choice( range(176,315)) )
+    point3 = ( random.choice( range(20,130) ), random.choice( range(315,455)) )
+    point4 = ( random.choice( range(131,240)), random.choice( range(point3[1],455)) )
+    point5 = ( random.choice( range(240,330)), random.choice( range(315,455)) )
+    point7 = ( point5[0] + 20, random.choice( range(60,175))  )
+    point6 = ( random.choice( range(point5[0],point7[0])), random.choice( range(176,315)) )
+    point8 = ( random.choice( range(131,240)), random.choice( range(60,point7[1]))  )
+    shape_pointlist = [point1, point2, point3, point4, point5, point6, point7, point8]
+
+
+    # Splitting the goal shape into eight parts
+    point4_5 = midpoint(point4, point5)
+    point8_1 = midpoint(point8, point1)
+
+    e1 = move_to_side([point8, point6, point7])
+    e2 = move_to_side([point8_1, midpoint(point8_1, point4_5), point6])
+    e3 = move_to_side([point8_1, point6, point8])
+    e4 = move_to_side([midpoint(point8_1, point4_5), point4_5, point5, point6])
+    e5 = move_to_side([point1, point2, point4_5, midpoint(point4_5, point8_1)])
+    e6 = move_to_side([point1, midpoint(point8_1, point4_5), point8_1])
+    e7 = move_to_side([point2, point3, point4_5])
+    e8 = move_to_side([point3, point4, point4_5])
+
+    # Make win shape tuples
+    # 3 vertex win shapes
+    three_win_shapes = ([point8, point6, point7], [tuple(point8_1), tuple(midpoint(point8_1, point4_5)), point6], \
+    [tuple(point8_1), point6, point8], [point1, tuple(midpoint(point8_1, point4_5)), tuple(point8_1)], \
+    [point2, point3, tuple(point4_5)], [point3, point4, tuple(point4_5)])
+
+    # 4 vertex win shapes
+    four_win_shapes = ([tuple(midpoint(point8_1, point4_5)), tuple(point4_5), point5, point6], \
+    [point1, point2, tuple(point4_5), tuple(midpoint(point4_5, point8_1))])
+
+
+    # Disperse shapes
+    subshape_list = [e1, e2, e3, e4, e5, e6, e7, e8]
+    indiv_shapes = {}
+    available_colors = [pygame.Color(255, 45, 40), pygame.Color(255, 230, 17), pygame.Color(28, 185, 65), pygame.Color(45, 255, 25), \
+    pygame.Color(40, 45, 210), pygame.Color(30, 205, 220) , pygame.Color(255, 113, 29), pygame.Color(170, 28, 186)]
+
+    for sub_shape in subshape_list:
+        while True:
+            neweighth = random_pos(sub_shape)
+            errors = 0
+            for point in neweighth:
+                if point[0] <= 350 or point[0] >= 720 or point[1] <= 60 or point[1] >= 480:
+                    errors += 1
+            if errors == 0:
+                index = random.choice(range(len(available_colors)))
+                indiv_shapes[tuple(neweighth)] = available_colors[index]
+                available_colors = available_colors[:index] + available_colors[:index:-1]
+                break
+
+    # Assign shapes to numbers
+    selector_numbers = {}
+    available_shapes = []
+    for shape in indiv_shapes:
+        available_shapes.append(shape)
+
+    for num in range(8):
+        index = random.choice(range(len(available_shapes)))
+        selector_numbers[num] = available_shapes[index]
+        available_shapes = available_shapes[:index] + available_shapes[index+1::]
+
+    # Make selector boxes
+    box_pos = [[20 + x, 10] for x in range(0, 510, 70)]
+    box_dim = [50, 50]
+    current_num = 0
+
+    # Win message
+    winMessage = winFont.render('Congratulations!', False, (240, 190, 40) )
+
+
+    # Make decoy shapes
+    #decoy_shapes = ()
+    #for x in range(2):
+    #    extra_shape = ()
+    #    vertices = random.choice([3,4])
+    #    for v in range(vertices):
+    #        point = (random.choice(range(350, 400)), random.choice(range(150, 250)))
+    #        extra_shape += point
+    #    decoy_shapes += extra_shape
+
+    #print(decoy_shapes)
+    #print()
+    #print(indiv_shapes)
+
+    right = False
+    left = False
+    up = False
+    down = False
+
     while True:
 
-        # Num definition            
-        oneSurface   = font.render('1', False, oneColor )
-        twoSurface   = font.render('2', False, twoColor )
-        threeSurface = font.render('3', False, threeColor )
-        fourSurface  = font.render('4', False, fourColor )
-        fiveSurface  = font.render('5', False, fiveColor )
-        sixSurface   = font.render('6', False, sixColor )
-        sevenSurface = font.render('7', False, sevenColor )
-        eightSurface = font.render('8', False, eightColor )
-        
-        # Number boxes 
-        box_nums = [oneSurface, twoSurface, threeSurface, fourSurface, fiveSurface, sixSurface, sevenSurface, eightSurface]
+        # Initial number colors
+        oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
+        oneColor = (255,255,255)
 
-        if current_num == 0:                                                                   # Selector number colors
+        # Change selector number color
+        if current_num == 0:
             oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
             oneColor = (255,255,255)
         elif current_num == 1:
@@ -220,6 +209,20 @@ def run(window, puzzles_solved):
         elif current_num == 7:
             oneColor, twoColor, threeColor, fourColor, fiveColor, sixColor, sevenColor, eightColor = reset_num_colors()
             eightColor = (255,255,255)
+
+        # Num definition            
+        oneSurface   = font.render('1', False, oneColor )
+        twoSurface   = font.render('2', False, twoColor )
+        threeSurface = font.render('3', False, threeColor )
+        fourSurface  = font.render('4', False, fourColor )
+        fiveSurface  = font.render('5', False, fiveColor )
+        sixSurface   = font.render('6', False, sixColor )
+        sevenSurface = font.render('7', False, sevenColor )
+        eightSurface = font.render('8', False, eightColor )
+        
+        # Number boxes 
+        box_nums = [oneSurface, twoSurface, threeSurface, fourSurface, fiveSurface, sixSurface, sevenSurface, eightSurface]
+
 
         # Drawing
         window.fill(window_color)
@@ -305,7 +308,7 @@ def run(window, puzzles_solved):
                     indiv_shapes.pop(shape)
                     selector_numbers[current_num] = tuple(move_shape(shape, 'down'))
                     break
-    
+
 
 
         # Flip screen
