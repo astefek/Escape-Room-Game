@@ -309,10 +309,10 @@ def run(window, puzzles_solved):
                 correct_shapes += close_enough(shape, four_win_shapes)
             elif len(shape) == 3:
                 correct_shapes += close_enough(shape, three_win_shapes)
-        print(correct_shapes)
 
         # If game is won
         if correct_shapes == 8:
             window.blit(winMessage, (485, 60) )
             pygame.display.flip()
             time.sleep(winScreenTime)
+            return puzzles_solved + 1
