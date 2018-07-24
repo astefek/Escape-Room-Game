@@ -231,7 +231,7 @@ def run(window, puzzles_solved):
             if event.type == pygame.QUIT:                                                           # Quit
                 pygame.quit()    
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
+                if event.key == pygame.K_ESCAPE:
                     return puzzles_solved
                 elif event.key == pygame.K_1:                                                     # Selector box movement
                     current_num = 0
