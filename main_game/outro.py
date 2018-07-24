@@ -17,7 +17,8 @@ window = pygame.display.set_mode([window_width, window_height])
 
 startbg = pygame.image.load('start_screenbg.png').convert()
 
-state = 0
+clock = pygame.time.Clock()
+
 
 def image_load(filename):
     image = pygame.image.load(filename).convert_alpha()
@@ -25,50 +26,46 @@ def image_load(filename):
     return image
 
 
-def loop(window):
-    global state
+def loop(window, cycles, state):
     if state == 0:
+        window.blit(startbg, (0,0))
         flame_sprite.update()
-        flame_sprite.draw(window) 
-        if pygame.time.get_ticks() < 3000:  
+        flame_sprite.draw(window)
+        if cycles < 1500:  
             state = 0
-            return state
         else:
             state = 1
-            return state
     if state == 1:
-        if pygame.time.get_ticks() < 5000:
+        if cycles < 2500:
+            window.blit(startbg, (0, 0))
             state = 1
-            return state
         else:
             state = 2
-            return state
     elif state == 2:
-        if pygame.time.get_ticks() < 8000:
+        window.blit(startbg, (0, 0))
+        if cycles < 3500:
             text_print(window, 'Hey, good job', 80)
             state = 2
-            return state
         else:
             state = 3
-            return state
     elif state == 3:
-        if pygame.time.get_ticks() < 10000:
+        window.blit(startbg, (0, 0))
+        if cycles < 4500:
             text_print(window, "You didn't blow up", 80)
             state = 3 
-            return state
         else:
             state = 4 
-            return state
     elif state == 4:
-        if pygame.time.get_ticks() < 12000:
+        window.blit(startbg, (0, 0))
+        if cycles < 5500:
             text_print(window, "Try to drive better next time", 50)
             state = 4 
-            return state 
         else:
             state = 5
-            return state
-    else:
-        return 
+    cycles += 1
+    return state, cycles
+    
+    
 
     
 def text_print(window, text, size):
@@ -158,13 +155,15 @@ flame_sprite.update()
 
 
 def run(window, bg):
-    global state
+    state = 0
     window.blit(bg, (0, 0))
-    outro_clock = pygame.time.Clock()
-    outro_clock.get_ticks()
-    state = loop(window)
-    pygame.display.flip()
+    
+    cycles = 0 
+
+    while state < 5:
+        state, cycles = loop(window, cycles, state)
+        pygame.display.flip()
     if state == 5:
-        pygame.QUIT()
+        pygame.quit()
 
 

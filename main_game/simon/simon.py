@@ -209,6 +209,7 @@ def seeInput():
                     return 'y'
             elif event.type == pygame.QUIT:
                 pygame.quit()
+            
 
 
 def inputPhase(gameList):
@@ -244,16 +245,16 @@ def playRound(gameList):
     changeBG(INPUTPHASECOLOR)
     inputPhase(gameList)
 
-def checkWin(gameList, puzzle_solved):
+def checkWin(gameList, puzzles_solved):
     """
     Checks to see if the player has won
     """
-    if len(gameList) == 8:
+    if len(gameList) == 3:
         return True
         
 
 # +*~*+ RUNNING THE GAME +*~*+ #
-def run(window, puzzle_solved, gameList=[]):
+def run(window, puzzles_solved, gameList=[]):
     """
     Runs the game.
 
@@ -263,7 +264,7 @@ def run(window, puzzle_solved, gameList=[]):
     """
     while True:
         playRound(gameList)
-        if checkWin(gameList, puzzle_solved) == True:
-            return puzzle_solved + 1
+        if checkWin(gameList, puzzles_solved) == True:
+            return puzzles_solved + 1
+        
 
-run(window, 0)
