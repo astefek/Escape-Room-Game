@@ -27,7 +27,6 @@ def image_load(filename):
 
 def loop(window):
     global state
-    outro_clock.tick(30)
     if state == 0:
         flame_sprite.update()
         flame_sprite.draw(window) 
@@ -158,13 +157,13 @@ flame_sprite.add(flames2)
 flame_sprite.update()
 
 
-def run(window, bg):
+def run(window, bg, clock):
     global state
     window.blit(bg, (0, 0))
+    
     state = loop(window)
     pygame.display.flip()
     if state == 5:
         pygame.QUIT()
-
 
 

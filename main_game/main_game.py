@@ -47,7 +47,8 @@ while True:
     if game_loop == 1:
         game_loop = graphics.run(window, bg)
     if game_loop == 2:
-        outro.run(window, startbg)
+        
+        outro.run(window, startbg, outro_clock)
     
 
  

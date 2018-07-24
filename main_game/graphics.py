@@ -4,6 +4,7 @@ import maze.mazePuzz
 import time
 import outro
 import shape_puzzle.shape_puzzle as shapes
+import simon.simon as simon
 
 pygame.init()
 pygame.font.init()
@@ -23,6 +24,13 @@ def text_print(window, text, size):
     font = pygame.font.SysFont('haettenschweiler', size)
     textsurface = font.render(text, False, (255, 255, 255))
     window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (322) - (textsurface.get_rect().height/2)))
+
+def printTime(currentTime):
+    mil = currentTime
+    totalSec = mil // 1000
+    minutes = totalSec // 60
+    secs = totalSec % 60 
+    return minutes, secs
 
 # Sprites 
 all_sprites = pygame.sprite.Group()
@@ -94,11 +102,11 @@ class Robot(pygame.sprite.Sprite):
         self.index = 0
 
         # Loading robot images 
-        for _ in range(150):
+        for _ in range(5):
             self.animation.append(image_load('robo1.png'))
-        for _ in range(150):
+        for _ in range(5):
             self.animation.append(image_load('robo2.png'))
-        for _ in range(150):
+        for _ in range(5):
             self.animation.append(image_load('robo3.png'))
         
         # Rect and pos 
@@ -126,13 +134,13 @@ class Floaty(pygame.sprite.Sprite):
         self.index = 0
 
         # Loading robot images 
-        for _ in range(200):
+        for _ in range(10):
             self.animation.append(image_load('floaty1.png'))
-        for _ in range(200):
+        for _ in range(10):
             self.animation.append(image_load('floaty2.png'))
-        for _ in range(200):
+        for _ in range(10):
             self.animation.append(image_load('floaty3.png'))
-        for _ in range(200):
+        for _ in range(10):
             self.animation.append(image_load('floaty4.png'))
 
         # Rect and pos 
@@ -178,20 +186,26 @@ all_sprites.add(floaty)
 
 
 def run(window, bg):
-    clock.tick(30)
-
     puzzles_solved = 0
+    timer = 0
     plant_text = False
     escape_text = False
     robo_text = False
     floaty_text = False
+    time_text = False
+    
 
 
     while True:
+        timer += clock.tick(30)
+        
+
+        # Drawing
         window.blit(bg, (0,0))
         all_sprites.update()
         all_sprites.draw(window)
         
+        # Text Stuff 
         if plant_text == True:
             text_print(window, 'The plant seems alright for now.', 25)
             plant_ev = pygame.event.get()
@@ -219,8 +233,20 @@ def run(window, bg):
             for event in floaty_ev:
                 if event.type == pygame.MOUSEBUTTONUP:
                     floaty_text = False
+        """
+        if time_text == True:
+            currentTime = clock.get_time()
+            minutes, secs = printTime(currentTime)
+            timing = str(minutes) + ':' + str(secs)
+            text_print(window, timing, 50)
+            time_ev = pygame.event.get()
+            for event in time_ev:
+                if event.type == pygame.MOUSEBUTTONUP:
+                    time_text = False
+            """
 
-
+            
+        # Sprite Clicking
         ev = pygame.event.get()
         for event in ev:
             if event.type == pygame.QUIT:
@@ -239,6 +265,8 @@ def run(window, bg):
                     robo_text = True
                 if clicked_sprites == [floaty]:
                     floaty_text = True
+                if clicked_sprites == [panel]:
+                    time_text = True
 
                 # Puzzles
                 if clicked_sprites == [screen]:
@@ -247,6 +275,8 @@ def run(window, bg):
                     puzzles_solved = maze.mazePuzz.run(window, puzzles_solved)
                 if clicked_sprites == [symbol]:
                     puzzles_solved = shapes.run(window, puzzles_solved)
+                if clicked_sprites == [simonsays]:
+                    puzzles_solved = simon.run(window, puzzles_solved)
 
         pygame.display.flip()
 
