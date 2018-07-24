@@ -226,7 +226,7 @@ def run(window, puzzles_solved):
                         player_filled.pop(current_box)
                     except:
                         pass
-                elif event.key == pygame.K_q:
+                elif event.key == pygame.K_ESCAPE:
                     return puzzles_solved
 
                     
