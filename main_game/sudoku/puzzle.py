@@ -5,7 +5,7 @@
 import pygame
 import math
 import random
-import sudoku.sudoku_generator as sudoku_generator
+import sudoku_generator
 import time
 
 # 6 x 6 sudoku
@@ -118,6 +118,36 @@ def boxFromSelector(selector_pointlist):
         box[1] == selector_pointlist[0][1]:
             return box
 
+def imageToNum(image):
+    """Takes a number image and returns its number.
+    Does not work with red numbers."""
+    if image == oneSurface:
+        return 1
+    elif image == twoSurface:
+        return 2
+    elif image == threeSurface:
+        return 3
+    elif image == fourSurface:
+        return 4
+    elif image == fiveSurface:
+        return 5
+    elif image == sixSurface:
+        return 6
+
+def makeSolutionGrid(d):
+    """Takes a full dictionary of box locations and regular numbers.
+    Returns a grid (list of lists) corresponding to the current 
+    sudoku solutions."""
+    column1 = [ d[(30,30)], d[(30, 102)], d[(30,174)], d[(30, 246)], d[(30, 318)], d[(30, 390)] ]
+    column2 = [ d[(102,30)], d[(102, 102)], d[(102,174)], d[(102, 246)], d[(102, 318)], d[(102, 390)] ]
+    column3 = [ d[(174,30)], d[(174, 102)], d[(174,174)], d[(174, 246)], d[(174, 318)], d[(174, 390)] ]
+    column4 = [ d[(246,30)], d[(246, 102)], d[(246,174)], d[(246, 246)], d[(246, 318)], d[(246, 390)] ]
+    column5 = [ d[(318,30)], d[(318, 102)], d[(318,174)], d[(318, 246)], d[(318, 318)], d[(318, 390)] ]
+    column6 = [ d[(390,30)], d[(390, 102)], d[(390,174)], d[(390, 246)], d[(390, 318)], d[(390, 390)] ]
+    grid = [column1, column2, column3, column4, column5, column6]
+    return grid
+
+
 
 # gen grid values dictionary
 grid_dict = {}
@@ -132,7 +162,7 @@ for x in range( len(box_pos) ):
 # Choose which boxes to fill
 rand_filled_boxes = {}                                                # Starting boxes
 available_keys = list(grid_dict.keys())
-for x in range(10):                                                   # Num boxes pre-filled
+for x in range(33):                                                   # Num boxes pre-filled
     box_selection = random.choice(available_keys)
     rand_filled_boxes[box_selection] = grid_dict[box_selection]
     for i in range(len(available_keys)):
@@ -236,16 +266,15 @@ def run(window, puzzles_solved):
         # Win Condition
         player_soln = {}
         for box in rand_filled_boxes:
-            player_soln[box] = rand_filled_boxes[box]
+            player_soln[box] = imageToNum( rand_filled_boxes[box] )
         for box in player_filled:
-            player_soln[box] = redToNorm(player_filled[box])
-        if player_soln == grid_dict:
-            win = True
-        if win:
-            window.blit(winMessage, (485, 30) )
-            pygame.display.flip()
-            time.sleep(winScreenTime)
-            return puzzles_solved + 1
+            player_soln[box] = imageToNum( redToNorm(player_filled[box]) )
+        if len(player_soln) == 36:
+            for x in range(6):
+                for y in range(6):
+                    solution_grid = makeSolutionGrid(player_soln)
+                    solution_grid.remove(solution_grid[x][y])
+
 
 
 
