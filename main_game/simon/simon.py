@@ -2,6 +2,8 @@ import pygame
 import random
 import time
 
+pygame.init()
+pygame.mixer.init()
 
 # ++++ SETTING PARAMETERS ++++ #
 
@@ -10,9 +12,6 @@ import time
 winWid = 720
 winHi = 480
 window = pygame.display.set_mode([winWid, winHi])
-
-
-windowSurface = pygame.Surface((winWid, winHi))
 
 # making the board #
 border = 10
@@ -35,6 +34,12 @@ defaultWindowColor = pygame.Color(77, 98, 118)
 READPHASECOLOR = (152, 38, 73)
 INPUTPHASECOLOR = (127, 183, 190)
 
+# sounds! #
+
+blueSound = pygame.mixer.Sound("A4.wav")
+redSound = pygame.mixer.Sound("B4.wav")
+greenSound = pygame.mixer.Sound("D5.wav")
+yellowSound = pygame.mixer.Sound("E5.wav")
 
 # mouse/cursor #
 pygame.mouse.set_cursor(*pygame.cursors.arrow)
@@ -52,7 +57,6 @@ class blueButton(pygame.sprite.Sprite):
         # button image display
         self.image = pygame.Surface([(winWid / 2)- dubBorder, (winHi / 2) - dubBorder])
         self.image.fill(BLUE)
-        # [NOPE] change self.image to -> pygame.draw.rect(window, LIGHTBLUE, self.rect) when lit
 
 class redButton(pygame.sprite.Sprite):
     #constructor below
@@ -64,7 +68,6 @@ class redButton(pygame.sprite.Sprite):
         # button image display
         self.image = pygame.Surface([(winWid / 2)- dubBorder, (winHi / 2) - dubBorder])
         self.image.fill(RED)
-        # [NOPE] change self.image to -> pygame.draw.rect(window, LIGHTRED, self.rect) when lit
 
 class greenButton(pygame.sprite.Sprite):
     #constructor below
@@ -76,7 +79,6 @@ class greenButton(pygame.sprite.Sprite):
         # button image display
         self.image = pygame.Surface([(winWid / 2)- dubBorder, (winHi / 2) - dubBorder])
         self.image.fill(GREEN)
-        # [NOPE] change self.image to -> pygame.draw.rect(window, LIGHTGREEN, self.rect) when lit
 
 class yellowButton(pygame.sprite.Sprite):
     #constructor below
@@ -88,7 +90,6 @@ class yellowButton(pygame.sprite.Sprite):
         # button image display
         self.image = pygame.Surface([(winWid / 2)- dubBorder, (winHi / 2) - dubBorder])
         self.image.fill(YELLOW)
-        # [NOPE] change self.image to -> pygame.draw.rect(window, LIGHTYELLOW, self.rect) when lit
 
 # ++++ CONSTRUCTING SPRITES ++++ #
 
@@ -114,9 +115,11 @@ def changeBG(color):
     allButtons.draw(window)
     pygame.display.flip()
 
-# ++++ CREATING THE BACK-END ++++ #
+# +-*-+ CREATING THE BACK-END +-*-+ #
 # features two phases of play -- the read phase and the input phase
 
+
+# ++++ READ PHASE ++++ #
 def buildList(gameList):
     """
     Builds the list of buttons fit for a simon says game.
@@ -124,9 +127,7 @@ def buildList(gameList):
     On each call, adds a random element to the constructed list.
     Previous elements remain unchanged.
     """
-    #gameList += [random.choice(['b', 'r', 'g', 'y'])]
     gameList.append(random.choice(['b', 'r', 'g', 'y']))
-    #return gameList
 
 def readList(gameList):
     """
@@ -136,24 +137,28 @@ def readList(gameList):
 
     for color in gameList:
         if color == 'b':
+            blueSound.play()
             pygame.draw.rect(window, LIGHTBLUE, blueButton.rect)
             pygame.display.flip()
             time.sleep(0.5)
             pygame.draw.rect(window, BLUE, blueButton.rect)
             pygame.display.flip()
         elif color == 'r':
+            redSound.play()
             pygame.draw.rect(window, LIGHTRED, redButton.rect)
             pygame.display.flip()
             time.sleep(0.5)
             pygame.draw.rect(window, RED, redButton.rect)
             pygame.display.flip()
         elif color == 'g':
+            greenSound.play()
             pygame.draw.rect(window, LIGHTGREEN, greenButton.rect)
             pygame.display.flip()
             time.sleep(0.5)
             pygame.draw.rect(window, GREEN, greenButton.rect)
             pygame.display.flip()
         elif color == 'y':
+            yellowSound.play()
             pygame.draw.rect(window, LIGHTYELLOW, yellowButton.rect)
             pygame.display.flip()
             time.sleep(0.5)
@@ -172,6 +177,9 @@ def readPhase(gameList):
     time.sleep(1)
     readList(gameList)
 
+
+# ++++ INPUT PHASE ++++ #
+
 def seeInput():
     """
     On a click, flashes the selected button and returns it as input
@@ -180,40 +188,28 @@ def seeInput():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP:
                 if blueButton.rect.collidepoint(event.pos):
+                    blueSound.play()
                     pygame.draw.rect(window, LIGHTBLUE, blueButton.rect)
                     pygame.display.flip()
                     return 'b'
                 elif redButton.rect.collidepoint(event.pos):
+                    redSound.play()
                     pygame.draw.rect(window, LIGHTRED, redButton.rect)
                     pygame.display.flip()
                     return 'r'
                 elif greenButton.rect.collidepoint(event.pos):
+                    greenSound.play()
                     pygame.draw.rect(window, LIGHTGREEN, greenButton.rect)
                     pygame.display.flip()
                     return 'g'
                 elif yellowButton.rect.collidepoint(event.pos):
+                    yellowSound.play()
                     pygame.draw.rect(window, LIGHTYELLOW, yellowButton.rect)
                     pygame.display.flip()
                     return 'y'
             elif event.type == pygame.QUIT:
                 pygame.quit()
-            
-    
-# def checkMove(answer, input):
-#     """
-#     Checks each input to see if it aligns with each element in
-#     the gameList
-#     """
-#     return input == answer
-#         #buildList(gameList)
 
-#     # for color in gameList:
-#     #     #if input == None:
-#     #     #    pass
-#     #     if input != color:
-#     #         gameList = []
-#     #         return gameList
-#     # return gameList
 
 def inputPhase(gameList):
     """
@@ -252,14 +248,22 @@ def checkWin(gameList, puzzle_solved):
     """
     Checks to see if the player has won
     """
-    if len(gameList) == 3:
+    if len(gameList) == 8:
         return True
         
 
 # +*~*+ RUNNING THE GAME +*~*+ #
 def run(window, puzzle_solved, gameList=[]):
+    """
+    Runs the game.
+
+    The run function subsists on 2 functions,
+    one to play a single round, and one to 
+    check to see if the player has won the whole game. 
+    """
     while True:
         playRound(gameList)
         if checkWin(gameList, puzzle_solved) == True:
             return puzzle_solved + 1
 
+run(window, 0)
