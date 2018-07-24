@@ -25,13 +25,6 @@ def text_print(window, text, size):
     textsurface = font.render(text, False, (255, 255, 255))
     window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (322) - (textsurface.get_rect().height/2)))
 
-def printTime(currentTime):
-    mil = currentTime
-    totalSec = mil // 1000
-    minutes = totalSec // 60
-    secs = totalSec % 60 
-    return minutes, secs
-
 # Sprites 
 all_sprites = pygame.sprite.Group()
 
@@ -187,7 +180,6 @@ all_sprites.add(floaty)
 
 def run(window, bg):
     puzzles_solved = 0
-    timer = 0
     plant_text = False
     escape_text = False
     robo_text = False
@@ -233,19 +225,8 @@ def run(window, bg):
             for event in floaty_ev:
                 if event.type == pygame.MOUSEBUTTONUP:
                     floaty_text = False
-        """
-        if time_text == True:
-            currentTime = clock.get_time()
-            minutes, secs = printTime(currentTime)
-            timing = str(minutes) + ':' + str(secs)
-            text_print(window, timing, 50)
-            time_ev = pygame.event.get()
-            for event in time_ev:
-                if event.type == pygame.MOUSEBUTTONUP:
-                    time_text = False
-            """
+        
 
-            
         # Sprite Clicking
         ev = pygame.event.get()
         for event in ev:
@@ -265,8 +246,7 @@ def run(window, bg):
                     robo_text = True
                 if clicked_sprites == [floaty]:
                     floaty_text = True
-                if clicked_sprites == [panel]:
-                    time_text = True
+                
 
                 # Puzzles
                 if clicked_sprites == [screen]:

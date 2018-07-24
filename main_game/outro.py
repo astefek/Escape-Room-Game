@@ -14,7 +14,7 @@ window_width = 720
 window_height = 480
 window = pygame.display.set_mode([window_width, window_height])
 
-outro_clock = pygame.time.Clock()
+
 startbg = pygame.image.load('start_screenbg.png').convert()
 
 state = 0
@@ -157,10 +157,11 @@ flame_sprite.add(flames2)
 flame_sprite.update()
 
 
-def run(window, bg, clock):
+def run(window, bg):
     global state
     window.blit(bg, (0, 0))
-    
+    outro_clock = pygame.time.Clock()
+    outro_clock.get_ticks()
     state = loop(window)
     pygame.display.flip()
     if state == 5:

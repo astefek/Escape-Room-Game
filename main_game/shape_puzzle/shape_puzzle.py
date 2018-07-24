@@ -15,6 +15,7 @@ window_color = pygame.Color(208, 161, 219)
 window = pygame.display.set_mode(window_size)
 
 
+
 # Function definition
 
 def close_enough(moved_shape, win_tuple):
@@ -23,8 +24,8 @@ def close_enough(moved_shape, win_tuple):
     matches = 0
     for win_shape in win_tuple:
         for vertex in moved_shape:
-            for x_leeway in range(-2,2):
-                for y_leeway in range(-2,2):
+            for x_leeway in range(-5,5):
+                for y_leeway in range(-5,5):
                     if (vertex[0] + x_leeway, vertex[1] + y_leeway) in win_shape:
                         matches += 1
     if matches >= len(win_shape):
@@ -37,13 +38,13 @@ def move_shape(shape, dir):
     new_shape = []
     for vertex in shape:
         if dir == 'left':
-            new_vertex = (vertex[0] - 2, vertex[1])
+            new_vertex = (vertex[0] - 1, vertex[1])
         elif dir == 'right':
-            new_vertex = (vertex[0] + 2, vertex[1])
+            new_vertex = (vertex[0] + 1, vertex[1])
         elif dir == 'up':
-            new_vertex = (vertex[0], vertex[1] - 2)
+            new_vertex = (vertex[0], vertex[1] - 1)
         elif dir == 'down':
-            new_vertex = (vertex[0], vertex[1] + 2)
+            new_vertex = (vertex[0], vertex[1] + 1)
         new_shape += [ new_vertex ]
     return(new_shape)
         
@@ -80,6 +81,8 @@ def reset_num_colors():
 
 def run(window, puzzles_solved):
     """Creates all necessary variables and runs shape game."""
+
+    wait_time = 0.003
 
     # Generate the goal shape
     shape_color = pygame.Color(0,0,0)
@@ -299,6 +302,7 @@ def run(window, puzzles_solved):
 
         # Flip screen
         pygame.display.flip()
+        time.sleep(wait_time)
 
         # Win condition
         correct_shapes = 0
