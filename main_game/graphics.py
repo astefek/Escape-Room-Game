@@ -13,8 +13,6 @@ window_width = 720
 window_height = 480
 window = pygame.display.set_mode([window_width, window_height])
 
-clock = pygame.time.Clock()
-start_time
 
 def image_load(filename):
     image = pygame.image.load(filename).convert_alpha()
@@ -185,12 +183,10 @@ def run(window, bg):
     escape_text = False
     robo_text = False
     floaty_text = False
+    panel_text = False
     
 
     while True:
-        timer += clock.tick(30)
-        
-
         # Drawing
         window.blit(bg, (0,0))
         all_sprites.update()
@@ -224,7 +220,13 @@ def run(window, bg):
             for event in floaty_ev:
                 if event.type == pygame.MOUSEBUTTONUP:
                     floaty_text = False
-        
+
+        if panel_text == True:
+            text_print(window, "Insert sarcastic comment about shitty driving here", 20)
+            panel_ev = pygame.event.get()
+            for event in panel_ev:
+                if event.type == pygame.MOUSEBUTTONUP:
+                    panel_text = False
 
         # Sprite Clicking
         ev = pygame.event.get()
@@ -245,6 +247,8 @@ def run(window, bg):
                     robo_text = True
                 if clicked_sprites == [floaty]:
                     floaty_text = True
+                if clicked_sprites == [panel]:
+                    panel_text = True
                 
 
                 # Puzzles
