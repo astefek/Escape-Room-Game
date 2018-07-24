@@ -60,6 +60,7 @@ def validMove(x, y, num, grid):
                         return False
 
     return True
+    
 
 def fill_cell(x, y, grid):
     """Assigns a number to a cell in the grid"""

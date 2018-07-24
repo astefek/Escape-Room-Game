@@ -5,7 +5,7 @@
 import pygame
 import math
 import random
-import sudoku_generator
+import sudoku.sudoku_generator as sudoku_generator
 import time
 
 # 6 x 6 sudoku
@@ -270,11 +270,16 @@ def run(window, puzzles_solved):
         for box in player_filled:
             player_soln[box] = imageToNum( redToNorm(player_filled[box]) )
         if len(player_soln) == 36:
+            win = True
             for x in range(6):
                 for y in range(6):
                     solution_grid = makeSolutionGrid(player_soln)
-                    solution_grid.remove(solution_grid[x][y])
-
-
-
-
+                    xy = solution_grid[x][y]
+                    solution_grid[x][y] = 0
+                    if not sudoku_generator.validMove(x, y, xy, solution_grid):
+                        win = False
+            if win:
+                window.blit(winMessage, (485, 30) )
+                pygame.display.flip()
+                time.sleep(winScreenTime)
+                return puzzles_solved + 1
