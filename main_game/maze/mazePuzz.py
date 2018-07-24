@@ -162,6 +162,9 @@ def run(window, puzzles_solved):
                     futurePlayerRect = pygame.Rect(playerPosn[0] + scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
                     if futurePlayerRect.collidelist(collideableWall) == -1:
                         playerPosn = (playerPosn[0] + scaleFactWid, playerPosn[1])
+                
+                if event.key == pygame.K_ESCAPE:
+                    return puzzles_solved
         
         if solveMaze(playerPosn, findEnd(LoL)) == True:
             return puzzles_solved + 1
