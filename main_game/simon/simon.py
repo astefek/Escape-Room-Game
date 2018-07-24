@@ -209,6 +209,9 @@ def seeInput():
                     return 'y'
             elif event.type == pygame.QUIT:
                 pygame.quit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return puzzles_solved
 
 
 def inputPhase(gameList):
@@ -266,4 +269,3 @@ def run(window, puzzle_solved, gameList=[]):
         if checkWin(gameList, puzzle_solved) == True:
             return puzzle_solved + 1
 
-run(window, 0)

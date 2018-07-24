@@ -14,6 +14,7 @@ window_height = 480
 window = pygame.display.set_mode([window_width, window_height])
 
 clock = pygame.time.Clock()
+start_time
 
 def image_load(filename):
     image = pygame.image.load(filename).convert_alpha()
@@ -184,9 +185,7 @@ def run(window, bg):
     escape_text = False
     robo_text = False
     floaty_text = False
-    time_text = False
     
-
 
     while True:
         timer += clock.tick(30)
