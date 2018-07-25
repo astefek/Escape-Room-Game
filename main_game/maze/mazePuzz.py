@@ -1,5 +1,6 @@
 import maze.mazetest as mazetest
 import pygame
+import time
 
 pygame.init()
 
@@ -126,6 +127,14 @@ def solveMaze(playerPosn, endPosn):
 
 # +++ PLAYING THE GAME +++ #             
 def run(window):
+    # Start direction variable definition
+    up = False
+    down = False
+    left = False
+    right = False
+    # delay set
+    loop_delay = 0.07
+
     playerSurface = window 
     playerColor = pygame.Color(217, 226, 115) 
     playerSize = (scaleFactWid, scaleFactHi)
@@ -144,30 +153,46 @@ def run(window):
                 pygame.quit() 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
-                    futurePlayerRect = pygame.Rect(playerPosn[0], playerPosn[1] - scaleFactHi, scaleFactWid, scaleFactHi)
-                    if futurePlayerRect.collidelist(collideableWall) == -1:
-                        playerPosn = (playerPosn[0], playerPosn[1] - scaleFactHi)
-                    
+                    up = True
                 if event.key == pygame.K_DOWN:
-                    futurePlayerRect = pygame.Rect(playerPosn[0], playerPosn[1] + scaleFactHi, scaleFactWid, scaleFactHi)
-                    if futurePlayerRect.collidelist(collideableWall) == -1:
-                        playerPosn = (playerPosn[0], playerPosn[1] + scaleFactHi)
-
+                    down = True
                 if event.key == pygame.K_LEFT:
-                    futurePlayerRect = futureUpPlayerRect = pygame.Rect(playerPosn[0] - scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
-                    if futurePlayerRect.collidelist(collideableWall) == -1:
-                        playerPosn = (playerPosn[0] - scaleFactWid, playerPosn[1])
-
+                    left = True
                 if event.key == pygame.K_RIGHT:
-                    futurePlayerRect = pygame.Rect(playerPosn[0] + scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
-                    if futurePlayerRect.collidelist(collideableWall) == -1:
-                        playerPosn = (playerPosn[0] + scaleFactWid, playerPosn[1])
+                    right = True
                 
                 if event.key == pygame.K_ESCAPE:
                     return False
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_UP:
+                    up = False
+                elif event.key == pygame.K_DOWN:
+                    down = False
+                elif event.key == pygame.K_LEFT:
+                    left = False
+                elif event.key == pygame.K_RIGHT:
+                    right = False
         
+        if up:
+            futurePlayerRect = pygame.Rect(playerPosn[0], playerPosn[1] - scaleFactHi, scaleFactWid, scaleFactHi)
+            if futurePlayerRect.collidelist(collideableWall) == -1:
+                playerPosn = (playerPosn[0], playerPosn[1] - scaleFactHi)
+        elif down:
+            futurePlayerRect = pygame.Rect(playerPosn[0], playerPosn[1] + scaleFactHi, scaleFactWid, scaleFactHi)
+            if futurePlayerRect.collidelist(collideableWall) == -1:
+                playerPosn = (playerPosn[0], playerPosn[1] + scaleFactHi)
+        elif right:
+            futurePlayerRect = pygame.Rect(playerPosn[0] + scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
+            if futurePlayerRect.collidelist(collideableWall) == -1:
+                playerPosn = (playerPosn[0] + scaleFactWid, playerPosn[1])
+        elif left:
+            futurePlayerRect = futureUpPlayerRect = pygame.Rect(playerPosn[0] - scaleFactWid, playerPosn[1], scaleFactWid, scaleFactHi)
+            if futurePlayerRect.collidelist(collideableWall) == -1:
+                playerPosn = (playerPosn[0] - scaleFactWid, playerPosn[1])
         if solveMaze(playerPosn, findEnd(LoL)) == True:
             return True
         
         pygame.display.flip()
+
+        time.sleep(loop_delay)
     
