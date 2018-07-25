@@ -82,6 +82,13 @@ class EscapePod(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (193, 278)
 
+class Bed(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('bed.png').convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.center = (540, 342)
+
 class Robot(pygame.sprite.Sprite):
     """
     stomping robot
@@ -106,7 +113,7 @@ class Robot(pygame.sprite.Sprite):
         # Rect and pos 
         self.image = self.animation[self.index]
         self.rect = self.image.get_rect()
-        self.rect.center = (541, 331)
+        self.rect.center = (332, 441)
     
     def update(self):
         self.index += 1 
@@ -166,6 +173,9 @@ all_sprites.add(symbol)
 tube = Tube()
 all_sprites.add(tube)
 
+bed = Bed()
+all_sprites.add(bed)
+
 simonsays = SimonSays()
 all_sprites.add(simonsays)
 
@@ -177,6 +187,7 @@ all_sprites.add(robo)
 
 floaty = Floaty()
 all_sprites.add(floaty)
+
 
 
 def run(window, bg):
@@ -193,6 +204,7 @@ def run(window, bg):
     robo_text = False
     floaty_text = False
     panel_text = False
+    bed_text = False
     
 
     while True:
@@ -233,11 +245,18 @@ def run(window, bg):
                     floaty_text = False
 
         if panel_text == True:
-            text_print(window, "Insert sarcastic comment about shitty driving here", 20)
+            text_print(window, "Try clicking on Lt. Bolts", 20)
             panel_ev = pygame.event.get()
             for event in panel_ev:
                 if event.type == pygame.MOUSEBUTTONUP:
                     panel_text = False
+
+        if bed_text == True:
+            text_print(window, "This is no time for a nap!", 20)
+            bed_ev = pygame.event.get()
+            for event in bed_ev:
+                if event.type == pygame.MOUSEBUTTONUP:
+                    bed_text = False
 
         # Sprite Clicking
         ev = pygame.event.get()
@@ -260,6 +279,8 @@ def run(window, bg):
                     floaty_text = True
                 if clicked_sprites == [panel]:
                     panel_text = True
+                if clicked_sprites == [bed]:
+                    bed_text = True
                 
 
                 # Puzzles
