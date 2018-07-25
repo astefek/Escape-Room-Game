@@ -31,33 +31,33 @@ def loop(window, cycles, state):
         window.blit(startbg, (0,0))
         flame_sprite.update()
         flame_sprite.draw(window)
-        if cycles < 1500:  
+        if cycles < 1900:  
             state = 0
         else:
             state = 1
     if state == 1:
-        if cycles < 2500:
+        if cycles < 2600:
             window.blit(startbg, (0, 0))
             state = 1
         else:
             state = 2
     elif state == 2:
         window.blit(startbg, (0, 0))
-        if cycles < 3500:
+        if cycles < 3900:
             text_print(window, 'Hey, good job', 80)
             state = 2
         else:
             state = 3
     elif state == 3:
         window.blit(startbg, (0, 0))
-        if cycles < 4500:
+        if cycles < 4900:
             text_print(window, "You didn't blow up", 80)
             state = 3 
         else:
             state = 4 
     elif state == 4:
         window.blit(startbg, (0, 0))
-        if cycles < 5500:
+        if cycles < 5900:
             text_print(window, "Try to drive better next time", 50)
             state = 4 
         else:
