@@ -125,7 +125,7 @@ def solveMaze(playerPosn, endPosn):
 
 
 # +++ PLAYING THE GAME +++ #             
-def run(window, puzzles_solved):
+def run(window):
     playerSurface = window 
     playerColor = pygame.Color(217, 226, 115) 
     playerSize = (scaleFactWid, scaleFactHi)
@@ -164,10 +164,10 @@ def run(window, puzzles_solved):
                         playerPosn = (playerPosn[0] + scaleFactWid, playerPosn[1])
                 
                 if event.key == pygame.K_ESCAPE:
-                    return puzzles_solved
+                    return False
         
         if solveMaze(playerPosn, findEnd(LoL)) == True:
-            return puzzles_solved + 1
+            return True
         
         pygame.display.flip()
     

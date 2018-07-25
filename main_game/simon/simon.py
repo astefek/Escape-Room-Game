@@ -245,7 +245,7 @@ def playRound(gameList):
     changeBG(INPUTPHASECOLOR)
     inputPhase(gameList)
 
-def checkWin(gameList, puzzles_solved):
+def checkWin(gameList):
     """
     Checks to see if the player has won
     """
@@ -254,7 +254,7 @@ def checkWin(gameList, puzzles_solved):
         
 
 # +*~*+ RUNNING THE GAME +*~*+ #
-def run(window, puzzles_solved, gameList=[]):
+def run(window, gameList=[]):
     """
     Runs the game.
 
@@ -264,7 +264,7 @@ def run(window, puzzles_solved, gameList=[]):
     """
     while True:
         playRound(gameList)
-        if checkWin(gameList, puzzles_solved) == True:
-            return puzzles_solved + 1
+        if checkWin(gameList) == True:
+            return True
         
 
