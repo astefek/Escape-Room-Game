@@ -195,4 +195,3 @@ def run(window):
         pygame.display.flip()
 
         time.sleep(loop_delay)
-    

@@ -7,6 +7,9 @@ pygame.mixer.init()
 
 # ++++ SETTING PARAMETERS ++++ #
 
+# Escape definition
+escape = False
+
 # making the window #
 
 winWid = 720
@@ -181,6 +184,7 @@ def readPhase(gameList):
 # ++++ INPUT PHASE ++++ #
 
 def seeInput():
+    global escape
     """
     On a click, flashes the selected button and returns it as input
     """
@@ -207,6 +211,10 @@ def seeInput():
                     pygame.draw.rect(window, LIGHTYELLOW, yellowButton.rect)
                     pygame.display.flip()
                     return 'y'
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    escape = True
+                    return
             elif event.type == pygame.QUIT:
                 pygame.quit()
             
@@ -249,12 +257,13 @@ def checkWin(gameList):
     """
     Checks to see if the player has won
     """
-    if len(gameList) == 3:
+    if len(gameList) == 8:
         return True
-        
+
 
 # +*~*+ RUNNING THE GAME +*~*+ #
 def run(window, gameList=[]):
+    global escape
     """
     Runs the game.
 
@@ -263,8 +272,12 @@ def run(window, gameList=[]):
     check to see if the player has won the whole game. 
     """
     while True:
+        escape = False
         playRound(gameList)
         if checkWin(gameList) == True:
             return True
+        if escape:
+            gameList = []
+            return False
         
 
