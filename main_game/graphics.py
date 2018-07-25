@@ -22,7 +22,7 @@ def image_load(filename):
     return image
 
 def text_print(window, text, size):
-    font = pygame.font.SysFont('haettenschweiler', size)
+    font = pygame.font.SysFont('tunga', size)
     textsurface = font.render(text, False, (255, 255, 255))
     window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (322) - (textsurface.get_rect().height/2)))
 
@@ -270,7 +270,7 @@ def run(window, bg):
                 if clicked_sprites == [symbol]:
                     shape_solved = shapes.run(window)
                 if clicked_sprites == [simonsays]:
-                    simon_solved = simon.run(window, puzzles_solved)
+                    simon_solved = simon.run(window)
 
         pygame.display.flip()
 

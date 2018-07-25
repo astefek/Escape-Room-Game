@@ -28,12 +28,6 @@ startbg = pygame.image.load('start_screenbg.png').convert()
 
 bg = pygame.image.load('space_gamebg.png').convert()
 
-# Font
-font = pygame.font.SysFont('haettenschweiler', 90)
-
-# Clock
-clock = pygame.time.Clock()
-
 
 # Mouse/Cursor 
 pygame.mouse.set_cursor(*pygame.cursors.arrow)
@@ -44,7 +38,7 @@ puzzles_solved = 0
 
 while True:
     # Start Screen
-    game_loop = intro.run(window, startbg, font)
+    game_loop = intro.run(window, startbg)
     if game_loop == 1:
         game_loop = graphics.run(window, bg)
     if game_loop == 2:

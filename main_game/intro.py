@@ -180,7 +180,7 @@ flame_sprite.add(flames2)
 flame_sprite.update()
 
 
-def run(window, bg, font):
+def run(window, bg):
     global state
     window.blit(bg, (0, 0))
     event = pygame.event.poll()
