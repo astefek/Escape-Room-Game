@@ -24,7 +24,7 @@ def image_load(filename):
 def text_print(window, text, size):
     font = pygame.font.SysFont('tunga', size)
     textsurface = font.render(text, False, (255, 255, 255))
-    window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (322) - (textsurface.get_rect().height/2)))
+    window.blit(textsurface, ((window_width/2) - (textsurface.get_rect().width/2), (200) - (textsurface.get_rect().height/2)))
 
 # Sprites 
 all_sprites = pygame.sprite.Group()
@@ -155,7 +155,6 @@ class Floaty(pygame.sprite.Sprite):
             self.index = 0 
         self.image = self.animation[self.index]
 
-    
 
 # Adding Sprites 
 panel = Panel()
@@ -217,42 +216,42 @@ def run(window, bg):
         
         # Text Stuff 
         if plant_text == True:
-            text_print(window, 'The plant seems alright for now.', 25)
+            text_print(window, 'The plant seems alright for now.', 30)
             plant_ev = pygame.event.get()
             for event in plant_ev:
                 if event.type == pygame.MOUSEBUTTONUP:
                     plant_text = False
 
         if escape_text == True:
-            text_print(window, "Really? You're gonna try and escape? Wimp.", 20)
+            text_print(window, "Really? You're gonna try and escape? Wimp.", 30)
             escape_ev = pygame.event.get()
             for event in escape_ev:
                 if event.type == pygame.MOUSEBUTTONUP:
                     escape_text = False
 
         if robo_text == True:
-            text_print(window, "Admiral Gears: 'Please put out the fires...'", 20)
+            text_print(window, "Admiral Gears: 'Please put out the fires...'", 30)
             robo_ev = pygame.event.get()
             for event in robo_ev:
                 if event.type == pygame.MOUSEBUTTONUP:
                     robo_text = False
 
         if floaty_text == True:
-            text_print(window, "Lt. Bolts: 'Try clicking around the room'", 20)
+            text_print(window, "Lt. Bolts: 'Try clicking around the room'", 30)
             floaty_ev = pygame.event.get()
             for event in floaty_ev:
                 if event.type == pygame.MOUSEBUTTONUP:
                     floaty_text = False
 
         if panel_text == True:
-            text_print(window, "Try clicking on Lt. Bolts", 20)
+            text_print(window, "Try clicking on Lt. Bolts", 30)
             panel_ev = pygame.event.get()
             for event in panel_ev:
                 if event.type == pygame.MOUSEBUTTONUP:
                     panel_text = False
 
         if bed_text == True:
-            text_print(window, "This is no time for a nap!", 20)
+            text_print(window, "This is no time for a nap!", 30)
             bed_ev = pygame.event.get()
             for event in bed_ev:
                 if event.type == pygame.MOUSEBUTTONUP:
