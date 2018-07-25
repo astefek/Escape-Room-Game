@@ -173,7 +173,7 @@ for x in range(14):                                                   # Num boxe
 
 
  # Main loop
-def run(window, puzzles_solved):
+def run(window):
     """Runs sudoku"""
     player_filled = {}
     win = False
@@ -257,7 +257,7 @@ def run(window, puzzles_solved):
                     except:
                         pass
                 elif event.key == pygame.K_ESCAPE:
-                    return puzzles_solved
+                    return False
 
                     
         # Flip Screen
@@ -269,7 +269,7 @@ def run(window, puzzles_solved):
             window.blit(winMessage, (485, 30) )
             pygame.display.flip()
             time.sleep(winScreenTime)
-            return puzzles_solved + 1
+            return True
 
         player_soln = {}
         for box in rand_filled_boxes:
