@@ -180,7 +180,14 @@ all_sprites.add(floaty)
 
 
 def run(window, bg):
-    puzzles_solved = 0
+    # Puzzle Stuff 
+    sudoku_solved = False
+    shape_solved = False 
+    maze_solved = False 
+    simon_solved = False 
+
+
+    # Text Stuff 
     plant_text = False
     escape_text = False
     robo_text = False
@@ -257,17 +264,17 @@ def run(window, bg):
 
                 # Puzzles
                 if clicked_sprites == [screen]:
-                    puzzles_solved = sudoku.puzzle.run(window, puzzles_solved)
+                    sudoku_solved = sudoku.puzzle.run(window)
                 if clicked_sprites == [maze_panel]:
-                    puzzles_solved = maze.mazePuzz.run(window, puzzles_solved)
+                    maze_solved = maze.mazePuzz.run(window)
                 if clicked_sprites == [symbol]:
-                    puzzles_solved = shapes.run(window, puzzles_solved)
+                    shape_solved = shapes.run(window)
                 if clicked_sprites == [simonsays]:
-                    puzzles_solved = simon.run(window, puzzles_solved)
+                    simon_solved = simon.run(window, puzzles_solved)
 
         pygame.display.flip()
 
-        if puzzles_solved == 4:
+        if sudoku_solved and maze_solved and shape_solved and simon_solved:
             return 2
 
         
