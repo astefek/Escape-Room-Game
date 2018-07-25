@@ -162,7 +162,7 @@ for x in range( len(box_pos) ):
 # Choose which boxes to fill
 rand_filled_boxes = {}                                                # Starting boxes
 available_keys = list(grid_dict.keys())
-for x in range(33):                                                   # Num boxes pre-filled
+for x in range(14):                                                   # Num boxes pre-filled
     box_selection = random.choice(available_keys)
     rand_filled_boxes[box_selection] = grid_dict[box_selection]
     for i in range(len(available_keys)):
@@ -173,7 +173,7 @@ for x in range(33):                                                   # Num boxe
 
 
  # Main loop
-def run(window, puzzles_solved):
+def run(window):
     """Runs sudoku"""
     player_filled = {}
     win = False
@@ -257,13 +257,20 @@ def run(window, puzzles_solved):
                     except:
                         pass
                 elif event.key == pygame.K_ESCAPE:
-                    return puzzles_solved
+                    return False
 
                     
         # Flip Screen
         pygame.display.flip()
 
         # Win Condition
+
+        if win:
+            window.blit(winMessage, (485, 30) )
+            pygame.display.flip()
+            time.sleep(winScreenTime)
+            return True
+
         player_soln = {}
         for box in rand_filled_boxes:
             player_soln[box] = imageToNum( rand_filled_boxes[box] )
@@ -278,8 +285,3 @@ def run(window, puzzles_solved):
                     solution_grid[x][y] = 0
                     if not sudoku_generator.validMove(x, y, xy, solution_grid):
                         win = False
-            if win:
-                window.blit(winMessage, (485, 30) )
-                pygame.display.flip()
-                time.sleep(winScreenTime)
-                return puzzles_solved + 1

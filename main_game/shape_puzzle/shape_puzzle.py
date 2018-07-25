@@ -79,7 +79,7 @@ def reset_num_colors():
     """Returns eight instances of (0,0,0)"""
     return (0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0)
 
-def run(window, puzzles_solved):
+def run(window):
     """Creates all necessary variables and runs shape game."""
 
     wait_time = 0.003
@@ -235,7 +235,7 @@ def run(window, puzzles_solved):
                 pygame.quit()    
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    return puzzles_solved
+                    return False
                 elif event.key == pygame.K_1:                                                     # Selector box movement
                     current_num = 0
                 elif event.key == pygame.K_2:
@@ -319,4 +319,4 @@ def run(window, puzzles_solved):
             window.blit(winMessage, (485, 60) )
             pygame.display.flip()
             time.sleep(winScreenTime)
-            return puzzles_solved + 1
+            return True

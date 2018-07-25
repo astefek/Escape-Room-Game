@@ -13,6 +13,8 @@ window_width = 720
 window_height = 480
 window = pygame.display.set_mode([window_width, window_height])
 
+clock = pygame.time.Clock()
+
 
 def image_load(filename):
     image = pygame.image.load(filename).convert_alpha()
@@ -187,6 +189,8 @@ def run(window, bg):
     
 
     while True:
+        clock.tick(30)
+
         # Drawing
         window.blit(bg, (0,0))
         all_sprites.update()
