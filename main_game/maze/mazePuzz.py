@@ -102,7 +102,7 @@ def drawMaze(mazeMap):
 
 # +++ MAKING THE PLAYER ITEM +++ #
 playerSurface = window 
-playerColor = pygame.Color(217, 226, 115) 
+playerColor = pygame.Color(255, 0, 0) 
 playerSize = (scaleFactWid, scaleFactHi)
 playerPosn = (scaleFactWid, scaleFactHi)
 
@@ -136,7 +136,7 @@ def run(window):
     loop_delay = 0.07
 
     playerSurface = window 
-    playerColor = pygame.Color(217, 226, 115) 
+    playerColor = pygame.Color(255, 0, 0) 
     playerSize = (scaleFactWid, scaleFactHi)
     playerPosn = (scaleFactWid, scaleFactHi)
     while True:

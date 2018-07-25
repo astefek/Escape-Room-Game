@@ -21,20 +21,20 @@ border = 10
 dubBorder = 2 * border
 
 # colors! #
-BLUE = (58, 58, 191)
-LIGHTBLUE = (107, 120, 203)
+BLUE = (38, 39, 245)
+LIGHTBLUE = (22, 255, 255)
 
-RED = (127, 50, 46)
-LIGHTRED = (166, 68, 97)
+RED = (252, 23, 0)
+LIGHTRED = (252, 156, 81)
 
-GREEN = (36, 134, 23)
-LIGHTGREEN = (85, 255, 66)
+GREEN = (68, 252, 43)
+LIGHTGREEN = (155, 209, 107)
 
-YELLOW = (201, 171, 75)
-LIGHTYELLOW = (220, 198, 131)
+YELLOW = (255, 217, 95)
+LIGHTYELLOW = (217, 214, 138)
 
 defaultWindowColor = pygame.Color(77, 98, 118)
-READPHASECOLOR = (152, 38, 73)
+READPHASECOLOR = (255, 134, 177)
 INPUTPHASECOLOR = (127, 183, 190)
 
 # sounds! #

@@ -21,7 +21,7 @@ winScreenTime = 5
 # Window setup
 
 window_size = [720, 480]
-window_color = pygame.Color(200, 130, 165)
+window_color = pygame.Color(200, 160, 180)
 window = pygame.display.set_mode(window_size)
 
 # Grid box vertices
@@ -41,12 +41,12 @@ fourSurface  = font.render('4', False, (74,110,85) )
 fiveSurface  = font.render('5', False, (74,110,85) )
 sixSurface   = font.render('6', False, (74,110,85) )
 
-redOneSurface   = font.render('1', False, (198,27,27) )
-redTwoSurface   = font.render('2', False, (198,27,27) )
-redThreeSurface = font.render('3', False, (198,27,27) )
-redFourSurface  = font.render('4', False, (198,27,27) )
-redFiveSurface  = font.render('5', False, (198,27,27) )
-redSixSurface   = font.render('6', False, (198,27,27) ) 
+redOneSurface   = font.render('1', False, (235,45,45) )
+redTwoSurface   = font.render('2', False, (235,45,45) )
+redThreeSurface = font.render('3', False, (235,45,45) )
+redFourSurface  = font.render('4', False, (235,45,45) )
+redFiveSurface  = font.render('5', False, (235,45,45) )
+redSixSurface   = font.render('6', False, (235,45,45) ) 
 
 winMessage = winFont.render('Congratulations!', False, (240, 190, 40) )
 
@@ -196,10 +196,10 @@ def run(window):
 
         # Draw grid lines
         #horizontal line
-        pygame.draw.line(window, pygame.Color(200, 165, 135), (30, 239), (450,239), 8 )
+        pygame.draw.line(window, pygame.Color(138, 120, 115), (30, 239), (450,239), 8 )
         #vertical lines
-        pygame.draw.line(window, pygame.Color(200, 165, 135), (167, 30), (167,450), 8 )
-        pygame.draw.line(window, pygame.Color(200, 165, 135), (311, 30), (311,450), 8 )
+        pygame.draw.line(window, pygame.Color(138, 120, 115), (167, 30), (167,450), 8 )
+        pygame.draw.line(window, pygame.Color(138, 120, 115), (311, 30), (311,450), 8 )
 
         #Draw user inputted numbers
         for box in player_filled:
