@@ -1,4 +1,5 @@
-# Escape Room Game 
+# Trouble with Space Travel
+# Escape the ship! It's crashing almost as hard as our code 
 
 import pygame
 import time
