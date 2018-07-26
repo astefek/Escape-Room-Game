@@ -24,8 +24,8 @@ def close_enough(moved_shape, win_tuple):
     matches = 0
     for win_shape in win_tuple:
         for vertex in moved_shape:
-            for x_leeway in range(-6,6):
-                for y_leeway in range(-6,6):
+            for x_leeway in range(-7,7):
+                for y_leeway in range(-7,7):
                     if (vertex[0] + x_leeway, vertex[1] + y_leeway) in win_shape:
                         matches += 1
     if matches >= len(win_shape):
