@@ -283,13 +283,13 @@ def run(window, bg):
                 
 
                 # Puzzles
-                if clicked_sprites == [screen]:
+                if clicked_sprites == [screen] and sudoku_solved == False:
                     sudoku_solved = sudoku.puzzle.run(window)
-                if clicked_sprites == [maze_panel]:
+                if clicked_sprites == [maze_panel] and maze_solved == False:
                     maze_solved = maze.mazePuzz.run(window)
-                if clicked_sprites == [symbol]:
+                if clicked_sprites == [symbol] and shape_solved == False:
                     shape_solved = shapes.run(window)
-                if clicked_sprites == [simonsays]:
+                if clicked_sprites == [simonsays] and simon_solved == False:
                     simon_solved = simon.run(window)
 
         pygame.display.flip()
