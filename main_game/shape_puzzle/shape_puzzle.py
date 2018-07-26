@@ -87,12 +87,12 @@ def run(window):
     # Generate the goal shape
     shape_color = pygame.Color(0,0,0)
 
-    point1 = ( random.choice( range(20,130) ), random.choice( range(60,175))  )
+    point1 = ( random.choice( range(21,130) ), random.choice( range(60,175))  )
     point2 = ( random.choice( range(20, point1[0]) ), random.choice( range(176,315)) )
-    point3 = ( random.choice( range(20,130) ), random.choice( range(315,455)) )
+    point3 = ( random.choice( range(20,130) ), random.choice( range(315,454)) )
     point4 = ( random.choice( range(131,240)), random.choice( range(point3[1],455)) )
     point5 = ( random.choice( range(240,330)), random.choice( range(315,455)) )
-    point7 = ( point5[0] + 20, random.choice( range(60,175))  )
+    point7 = ( point5[0] + 20, random.choice( range(61,175))  )
     point6 = ( random.choice( range(point5[0],point7[0])), random.choice( range(176,315)) )
     point8 = ( random.choice( range(131,240)), random.choice( range(60,point7[1]))  )
     shape_pointlist = [point1, point2, point3, point4, point5, point6, point7, point8]
@@ -316,7 +316,7 @@ def run(window):
 
         # If game is won
         if correct_shapes == 8:
-            window.blit(winMessage, (485, 60) )
-            pygame.display.flip()
-            time.sleep(winScreenTime)
+            #window.blit(winMessage, (485, 60) )
+            #pygame.display.flip()
+            #time.sleep(winScreenTime)
             return True
