@@ -24,9 +24,9 @@ window_width = 720
 window_height = 480
 window = pygame.display.set_mode([window_width, window_height])
 
-startbg = pygame.image.load('start_screenbg.png').convert()
+startbg = pygame.image.load('introbg.png').convert()
 
-bg = pygame.image.load('space_gamebg.png').convert()
+bg = pygame.image.load('mainbg.png').convert()
 
 
 # Mouse/Cursor 
