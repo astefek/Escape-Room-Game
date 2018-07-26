@@ -34,7 +34,7 @@ YELLOW = (201, 171, 75)
 LIGHTYELLOW = (220, 198, 131)
 
 defaultWindowColor = pygame.Color(77, 98, 118)
-READPHASECOLOR = (152, 38, 73)
+READPHASECOLOR = (255, 134, 177)
 INPUTPHASECOLOR = (127, 183, 190)
 
 # sounds! #
