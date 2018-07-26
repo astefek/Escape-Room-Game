@@ -266,9 +266,9 @@ def run(window):
         # Win Condition
 
         if win:
-            window.blit(winMessage, (485, 30) )
-            pygame.display.flip()
-            time.sleep(winScreenTime)
+            #window.blit(winMessage, (485, 30) )
+            #pygame.display.flip()
+            #time.sleep(winScreenTime)
             return True
 
         player_soln = {}

@@ -316,7 +316,7 @@ def run(window):
 
         # If game is won
         if correct_shapes == 8:
-            window.blit(winMessage, (485, 60) )
-            pygame.display.flip()
-            time.sleep(winScreenTime)
+            #window.blit(winMessage, (485, 60) )
+            #pygame.display.flip()
+            #time.sleep(winScreenTime)
             return True
