@@ -126,7 +126,7 @@ def run(window):
     subshape_list = [e1, e2, e3, e4, e5, e6, e7, e8]
     indiv_shapes = {}
     available_colors = [pygame.Color(255, 45, 40), pygame.Color(255, 230, 17), pygame.Color(28, 185, 65), pygame.Color(45, 255, 25), \
-    pygame.Color(40, 45, 210), pygame.Color(30, 205, 220) , pygame.Color(255, 113, 29), pygame.Color(170, 28, 186)]
+    pygame.Color(110, 110, 235), pygame.Color(30, 205, 220) , pygame.Color(255, 113, 29), pygame.Color(170, 28, 186)]
 
     for sub_shape in subshape_list:
         while True:
