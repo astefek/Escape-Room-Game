@@ -257,7 +257,7 @@ def checkWin(gameList):
     """
     Checks to see if the player has won
     """
-    if len(gameList) == 8:
+    if len(gameList) == 4:
         return True
 
 
