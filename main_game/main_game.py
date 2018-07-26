@@ -32,8 +32,6 @@ bg = pygame.image.load('space_gamebg.png').convert()
 # Mouse/Cursor 
 pygame.mouse.set_cursor(*pygame.cursors.arrow)
 
-# Progress variable 
-puzzles_solved = 0
 
 
 while True:
