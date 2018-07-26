@@ -206,6 +206,10 @@ def run(window):
             window.blit( player_filled[box], ( box[0] + 18, box[1] + 10 ) )
 
 
+        # Get current selected box
+        current_box = boxFromSelector(selector_pointlist)
+
+
         # User interactions
 
         for event in pygame.event.get():
@@ -226,27 +230,21 @@ def run(window):
                         selector_pointlist[vertex][0] -= 72
                 
                 elif event.key == pygame.K_1:                              # Inputting numbers
-                    current_box = boxFromSelector(selector_pointlist)
                     if current_box not in rand_filled_boxes:
                         player_filled[current_box] = redOneSurface
                 elif event.key == pygame.K_2:
-                    current_box = boxFromSelector(selector_pointlist)
                     if current_box not in rand_filled_boxes:
                         player_filled[current_box] = redTwoSurface
                 elif event.key == pygame.K_3:
-                    current_box = boxFromSelector(selector_pointlist)
                     if current_box not in rand_filled_boxes:
                         player_filled[current_box] = redThreeSurface
                 elif event.key == pygame.K_4:
-                    current_box = boxFromSelector(selector_pointlist)
                     if current_box not in rand_filled_boxes:
                         player_filled[current_box] = redFourSurface
                 elif event.key == pygame.K_5:
-                    current_box = boxFromSelector(selector_pointlist)
                     if current_box not in rand_filled_boxes:
                         player_filled[current_box] = redFiveSurface
                 elif event.key == pygame.K_6:
-                    current_box = boxFromSelector(selector_pointlist)
                     if current_box not in rand_filled_boxes:
                         player_filled[current_box] = redSixSurface
                 elif event.key == pygame.K_SPACE:
